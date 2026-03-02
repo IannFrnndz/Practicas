@@ -37,8 +37,8 @@ public class UsuarioService {
     @PreAuthorize("hasRole('ADMIN')")
     public Usuario crearUsuario(Usuario usuario) {
         // Validar que no exista el username
-        if (usuarioRepository.existsByUsername(usuario.getUsername())) {
-            throw new IllegalArgumentException("El username ya existe: " + usuario.getUsername());
+        if (usuarioRepository.existsById(usuario.getId())) {
+            throw new IllegalArgumentException("El username ya existe: " + usuario.getId());
         }
 
         // Validar que no exista el email
@@ -79,15 +79,6 @@ public class UsuarioService {
     }
 
     /**
-     * Obtiene un usuario por su username
-     * @param username nombre de usuario
-     * @return Optional con el usuario si existe
-     */
-    public Optional<Usuario> obtenerPorUsername(String username) {
-        return usuarioRepository.findByUsername(username);
-    }
-
-    /**
      * Obtiene usuarios por rol
      * Solo ADMIN puede filtrar por rol
      * @param rol Rol a buscar
@@ -96,14 +87,6 @@ public class UsuarioService {
     @PreAuthorize("hasRole('ADMIN')")
     public List<Usuario> obtenerPorRol(Rol rol) {
         return usuarioRepository.findByRol(rol);
-    }
-
-    /**
-     * Obtiene todos los médicos (usuarios con rol MEDICO)
-     * @return Lista de médicos
-     */
-    public List<Usuario> obtenerMedicos() {
-        return usuarioRepository.findByRol(Rol.MEDICO);
     }
 
     // ============================================
@@ -129,12 +112,12 @@ public class UsuarioService {
         usuarioExistente.setActivo(usuarioActualizado.getActivo());
 
         // Solo actualizar username si cambió
-        if (!usuarioExistente.getUsername().equals(usuarioActualizado.getUsername())) {
-            if (usuarioRepository.existsByUsername(usuarioActualizado.getUsername())) {
-                throw new IllegalArgumentException("El username ya existe: " + usuarioActualizado.getUsername());
-            }
-            usuarioExistente.setUsername(usuarioActualizado.getUsername());
-        }
+//        if (!usuarioExistente.getUsername().equals(usuarioActualizado.getUsername())) {
+//            if (usuarioRepository.existsByUsername(usuarioActualizado.getUsername())) {
+//                throw new IllegalArgumentException("El username ya existe: " + usuarioActualizado.getUsername());
+//            }
+//            usuarioExistente.setUsername(usuarioActualizado.getUsername());
+//        }
 
         // Solo actualizar contraseña si se proporciona una nueva
         if (usuarioActualizado.getPasswordHash() != null &&

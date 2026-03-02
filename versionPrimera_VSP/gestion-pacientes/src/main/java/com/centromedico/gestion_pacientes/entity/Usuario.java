@@ -6,14 +6,11 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
-/**
- * Entidad que representa a un usuario del sistema
- * Puede ser ADMIN, MEDICO o RECEPCION
- */
 @Entity
 @Table(name = "usuarios")
 @Data
@@ -25,8 +22,12 @@ public class Usuario {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, unique = true, length = 50)
-    private String username;
+    // Opcionales se completan en perfil, util para la personalización de datos
+    @Column(length = 9, unique = true)
+    private String dni;
+
+    @Column(length = 20)
+    private String telefono;
 
     @Column(nullable = false, unique = true, length = 100)
     private String email;
@@ -37,9 +38,17 @@ public class Usuario {
     @Column(nullable = false, length = 100)
     private String nombre;
 
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false, length = 20)
-    private Rol rol;
+    @Column(name = "fecha_nacimiento")
+    private LocalDate fechaNacimiento;
+
+    @ManyToMany(fetch = FetchType.EAGER) // útil para Spring Security (cargar roles al autenticar)
+    @JoinTable(
+            name = "usuario_roles",
+            joinColumns = @JoinColumn(name = "usuario_id"),
+            inverseJoinColumns = @JoinColumn(name = "rol_id")
+    )
+    private Set<Role> roles = new HashSet<>();
+
 
     @Column(nullable = false)
     private Boolean activo = true;
@@ -47,30 +56,18 @@ public class Usuario {
     @Column(name = "fecha_creacion", nullable = false, updatable = false)
     private LocalDateTime fechaCreacion;
 
-    // ========================================
-    // RELACIÓN: Un Usuario (médico) tiene muchos Pacientes
-    // ========================================
-    @OneToMany(mappedBy = "medico", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<Paciente> pacientes = new ArrayList<>();
-
-    // ========================================
-    // MÉTODO PRE-PERSIST
-    // Se ejecuta antes de insertar en la BD
-    // ========================================
     @PrePersist
     protected void onCreate() {
         this.fechaCreacion = LocalDateTime.now();
-        if (this.activo == null) {
-            this.activo = true;
-        }
+        if (this.activo == null) this.activo = true;
     }
-
     // ========================================
     // MÉTODOS DE UTILIDAD
     // ========================================
 
     /**
      * Verifica si la contraseña proporcionada coincide con el hash almacenado
+     *
      * @param rawPassword Contraseña en texto plano
      * @return true si coincide, false si no
      */
@@ -81,10 +78,12 @@ public class Usuario {
 
     /**
      * Encripta y establece la contraseña
+     *
      * @param rawPassword Contraseña en texto plano
      */
     public void setPassword(String rawPassword) {
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         this.passwordHash = encoder.encode(rawPassword);
     }
+
 }

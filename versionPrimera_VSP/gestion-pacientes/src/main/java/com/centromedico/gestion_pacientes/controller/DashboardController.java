@@ -3,7 +3,6 @@ package com.centromedico.gestion_pacientes.controller;
 import com.centromedico.gestion_pacientes.config.CustomUserDetails;
 import com.centromedico.gestion_pacientes.entity.Rol;
 import com.centromedico.gestion_pacientes.entity.Usuario;
-import com.centromedico.gestion_pacientes.service.PacienteService;
 import com.centromedico.gestion_pacientes.service.UsuarioService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -19,7 +18,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 @RequiredArgsConstructor
 public class DashboardController {
 
-    private final PacienteService pacienteService;
     private final UsuarioService usuarioService;
 
     /**
@@ -42,17 +40,8 @@ public class DashboardController {
         Usuario usuario = userDetails.getUsuario();
         model.addAttribute("usuario", usuario);
 
-        // Estadísticas según el rol
-        if (usuario.getRol() == Rol.ADMIN) {
-            long totalPacientes = pacienteService.obtenerTodos().size();
-            long totalMedicos = usuarioService.obtenerMedicos().size();
 
-            model.addAttribute("totalPacientes", totalPacientes);
-            model.addAttribute("totalMedicos", totalMedicos);
-        } else if (usuario.getRol() == Rol.MEDICO) {
-            long misPacientes = pacienteService.contarPacientesPorMedico(usuario.getId());
-            model.addAttribute("misPacientes", misPacientes);
-        }
+
 
         return "dashboard";
     }
