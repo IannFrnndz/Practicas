@@ -16,6 +16,13 @@ import java.util.Optional;
 @Repository
 public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
 
+    /**
+     * Busca un usuario por su username
+     * IMPORTANTE: Este método es necesario para Spring Security
+     * @param username nombre de usuario
+     * @return Optional con el usuario si existe
+     */
+    Optional<Usuario> findByUsername(String username);
 
     /**
      * Busca un usuario por su email

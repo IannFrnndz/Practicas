@@ -39,7 +39,7 @@
         <!-- Formulario -->
         <div class="card">
             <div class="card-header">
-                <i class="bi bi-card-text"></i> Datos del Paciente
+                <i class="bi bi-card-text"></i> Datos de la oferta
             </div>
             <div class="card-body">
                 <form th:action="@{${paciente.id == null ? '/pacientes/crear' : '/pacientes/actualizar/' + paciente.id}}"
@@ -140,7 +140,7 @@
                                        th:field="*{activo}"
                                        checked>
                                 <label class="form-check-label" for="activo">
-                                    <i class="bi bi-check-circle"></i> Paciente activo
+                                    <i class="bi bi-check-circle"></i> Oferta activa
                                 </label>
                             </div>
                         </div>

@@ -3,6 +3,7 @@ package com.centromedico.gestion_pacientes.controller;
 import com.centromedico.gestion_pacientes.config.CustomUserDetails;
 import com.centromedico.gestion_pacientes.entity.Rol;
 import com.centromedico.gestion_pacientes.entity.Usuario;
+import com.centromedico.gestion_pacientes.service.PacienteService;
 import com.centromedico.gestion_pacientes.service.UsuarioService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -25,6 +26,7 @@ import java.util.List;
 public class UsuarioController {
 
     private final UsuarioService usuarioService;
+    private final PacienteService pacienteService;
 
     // ============================================
     // LISTAR USUARIOS
@@ -46,10 +48,19 @@ public class UsuarioController {
                 .filter(u -> u.getRol() == Rol.ADMIN)
                 .count();
 
+        long totalMedicos = usuarios.stream()
+                .filter(u -> u.getRol() == Rol.MEDICO)
+                .count();
+
+        long totalRecepcion = usuarios.stream()
+                .filter(u -> u.getRol() == Rol.RECEPCION)
+                .count();
+
         model.addAttribute("usuarios", usuarios);
         model.addAttribute("usuario", userDetails.getUsuario());
         model.addAttribute("totalAdmins", totalAdmins);
-
+        model.addAttribute("totalMedicos", totalMedicos);
+        model.addAttribute("totalRecepcion", totalRecepcion);
 
         return "usuarios/lista";
     }
@@ -70,6 +81,11 @@ public class UsuarioController {
         Usuario usuario = usuarioService.obtenerPorId(id)
                 .orElseThrow(() -> new IllegalArgumentException("Usuario no encontrado"));
 
+        // Si es médico, obtener sus pacientes
+        if (usuario.getRol() == Rol.MEDICO) {
+            long cantidadPacientes = pacienteService.contarPacientesPorMedico(usuario.getId());
+            model.addAttribute("cantidadPacientes", cantidadPacientes);
+        }
 
         model.addAttribute("usuarioDetalle", usuario);
         model.addAttribute("usuario", userDetails.getUsuario());
@@ -115,7 +131,7 @@ public class UsuarioController {
             Usuario usuarioGuardado = usuarioService.crearUsuario(usuario);
 
             redirectAttributes.addFlashAttribute("success",
-                    "Usuario creado correctamente: " + usuarioGuardado.getNombre());
+                    "Usuario creado correctamente: " + usuarioGuardado.getUsername());
 
             return "redirect:/usuarios";
 
@@ -168,7 +184,7 @@ public class UsuarioController {
             Usuario usuarioActualizado = usuarioService.actualizarUsuario(id, usuario);
 
             redirectAttributes.addFlashAttribute("success",
-                    "Usuario actualizado correctamente: " + usuarioActualizado.getNombre());
+                    "Usuario actualizado correctamente: " + usuarioActualizado.getUsername());
 
             return "redirect:/usuarios/ver/" + id;
 
@@ -203,7 +219,7 @@ public class UsuarioController {
             Usuario usuario = usuarioService.obtenerPorId(id)
                     .orElseThrow(() -> new IllegalArgumentException("Usuario no encontrado"));
 
-            String username = usuario.getNombre();
+            String username = usuario.getUsername();
 
             usuarioService.eliminarUsuario(id);
 
@@ -247,7 +263,7 @@ public class UsuarioController {
 
             String estado = usuario.getActivo() ? "activado" : "desactivado";
             redirectAttributes.addFlashAttribute("success",
-                    "Usuario " + estado + " correctamente: " + usuario.getNombre());
+                    "Usuario " + estado + " correctamente: " + usuario.getUsername());
 
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("error",

@@ -15,16 +15,16 @@
         <div class="row mb-4">
             <div class="col-md-8">
                 <h1 class="display-5">
-                    <i class="bi bi-people-fill"></i> Lista de Pacientes
+                    <i class="bi bi-card-list"></i> Lista de Ofertas
                 </h1>
-                <p class="lead text-muted">Todos los pacientes del centro médico</p>
+                <p class="lead text-muted">Todos las ofertas</p>
             </div>
             <div class="col-md-4 text-end">
                 <!-- Botón para crear paciente (solo ADMIN y MEDICO) -->
                 <a sec:authorize="hasAnyRole('ADMIN', 'MEDICO')"
                    href="/pacientes/nuevo"
                    class="btn btn-success btn-lg">
-                    <i class="bi bi-person-plus-fill"></i> Nuevo Paciente
+                    <i class="bi bi-folder-plus"></i> Nueva Oferta
                 </a>
             </div>
         </div>
@@ -43,12 +43,12 @@
         <!-- Tabla de Pacientes -->
         <div class="card">
             <div class="card-header">
-                <i class="bi bi-table"></i> Pacientes Activos
-                <span class="badge bg-light text-dark float-end" th:text="${pacientes.size()} + ' pacientes'">0 pacientes</span>
+                <i class="bi bi-table"></i> Ofertas Activas
+                <span class="badge bg-light text-dark float-end" th:text="${pacientes.size()} + ' ofertas'">0 ofertas</span>
             </div>
             <div class="card-body">
                 <div th:if="${pacientes.isEmpty()}" class="alert alert-info">
-                    <i class="bi bi-info-circle"></i> No hay pacientes registrados
+                    <i class="bi bi-info-circle"></i> No hay Ofertas registradas
                 </div>
 
                 <div th:if="${!pacientes.isEmpty()}" class="table-responsive">
