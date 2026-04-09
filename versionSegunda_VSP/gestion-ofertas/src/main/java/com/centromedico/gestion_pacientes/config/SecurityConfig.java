@@ -34,7 +34,7 @@ public class SecurityConfig {
                         .requestMatchers("/login", "/css/**", "/js/**", "/img/**").permitAll()
 
                         // Panel admin web
-                        .requestMatchers("/admin/**").hasRole("ADMIN")
+                        .requestMatchers("/dashboard/**").hasRole("ADMIN")
 
                         // todo lo demas protegido
                         .anyRequest().authenticated()
@@ -46,7 +46,7 @@ public class SecurityConfig {
                 .formLogin(form -> form
                         .loginPage("/login")
                         .loginProcessingUrl("/login")
-                        .defaultSuccessUrl("/admin", true)
+                        .defaultSuccessUrl("/dashboard", true)
                         .failureUrl("/login?error=true")
                         .usernameParameter("email")
                         .passwordParameter("password")

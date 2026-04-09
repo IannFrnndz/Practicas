@@ -12,33 +12,37 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import java.time.LocalDateTime;
 
 @Controller
-@RequestMapping("/admin")
+@RequestMapping("/dashboard")
 
 public class AdminController {
 
-    private OfertaService ofertaService;
+    private final OfertaService ofertaService;
 
-    @GetMapping
+    public AdminController(OfertaService ofertaService) {
+        this.ofertaService = ofertaService;
+    }
+
+    @GetMapping("/dashboard")
     public String panel(Model model) {
         model.addAttribute("ofertas", ofertaService.findAll());
-        return "admin";
+        return "dashboard";
     }
 
     @PostMapping("/crear")
     public String crear(Oferta oferta) {
         ofertaService.save(oferta);
-        return "redirect:/admin";
+        return "redirect:/dashboard";
     }
 
     @GetMapping("/publicar/{id}")
     public String publicar(@PathVariable Long id) {
         ofertaService.publicar(id);
-        return "redirect:/admin";
+        return "redirect:/dashboard";
     }
 
     @GetMapping("/borrar/{id}")
     public String borrar(@PathVariable Long id) {
         ofertaService.delete(id);
-        return "redirect:/admin";
+        return "redirect:/dashboard";
     }
 }

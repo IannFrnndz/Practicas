@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 @RequiredArgsConstructor
 public class DashboardController {
 
-
     private final UsuarioService usuarioService;
 
     /**
