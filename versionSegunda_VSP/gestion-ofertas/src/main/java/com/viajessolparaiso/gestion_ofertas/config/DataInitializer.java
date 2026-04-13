@@ -1,13 +1,11 @@
-package com.centromedico.gestion_pacientes.config;
+package com.viajessolparaiso.gestion_ofertas.config;
 
-import com.centromedico.gestion_pacientes.entity.Usuario;
-import com.centromedico.gestion_pacientes.repository.UsuarioRepository;
+import com.viajessolparaiso.gestion_ofertas.entity.Usuario;
+import com.viajessolparaiso.gestion_ofertas.repository.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
-
-import java.time.LocalDate;
 
 /**
  * Inicializador de datos

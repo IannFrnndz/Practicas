@@ -1,8 +1,8 @@
-package com.centromedico.gestion_pacientes.service;
+package com.viajessolparaiso.gestion_ofertas.service;
 
-import com.centromedico.gestion_pacientes.entity.EstadoOferta;
-import com.centromedico.gestion_pacientes.entity.Oferta;
-import com.centromedico.gestion_pacientes.repository.OfertaRepository;
+import com.viajessolparaiso.gestion_ofertas.entity.EstadoOferta;
+import com.viajessolparaiso.gestion_ofertas.entity.Oferta;
+import com.viajessolparaiso.gestion_ofertas.repository.OfertaRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

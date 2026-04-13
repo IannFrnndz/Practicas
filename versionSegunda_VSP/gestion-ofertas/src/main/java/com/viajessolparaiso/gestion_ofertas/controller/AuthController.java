@@ -1,4 +1,4 @@
-package com.centromedico.gestion_pacientes.controller;
+package com.viajessolparaiso.gestion_ofertas.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

@@ -1,4 +1,4 @@
-package com.centromedico.gestion_pacientes.entity;
+package com.viajessolparaiso.gestion_ofertas.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;

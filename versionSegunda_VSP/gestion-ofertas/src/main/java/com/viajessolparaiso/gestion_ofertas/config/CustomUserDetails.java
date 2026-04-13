@@ -1,6 +1,6 @@
-package com.centromedico.gestion_pacientes.config;
+package com.viajessolparaiso.gestion_ofertas.config;
 
-import com.centromedico.gestion_pacientes.entity.Usuario;
+import com.viajessolparaiso.gestion_ofertas.entity.Usuario;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;

@@ -1,8 +1,8 @@
-package com.centromedico.gestion_pacientes.controller;
+package com.viajessolparaiso.gestion_ofertas.controller;
 
-import com.centromedico.gestion_pacientes.config.CustomUserDetails;
-import com.centromedico.gestion_pacientes.entity.Usuario;
-import com.centromedico.gestion_pacientes.service.UsuarioService;
+import com.viajessolparaiso.gestion_ofertas.config.CustomUserDetails;
+import com.viajessolparaiso.gestion_ofertas.entity.Usuario;
+import com.viajessolparaiso.gestion_ofertas.service.UsuarioService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;

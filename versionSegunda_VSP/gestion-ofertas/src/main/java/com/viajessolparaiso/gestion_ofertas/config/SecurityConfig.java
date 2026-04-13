@@ -1,4 +1,4 @@
-package com.centromedico.gestion_pacientes.config;
+package com.viajessolparaiso.gestion_ofertas.config;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;

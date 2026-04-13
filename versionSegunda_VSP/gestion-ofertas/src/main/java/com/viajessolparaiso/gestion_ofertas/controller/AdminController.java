@@ -1,15 +1,13 @@
-package com.centromedico.gestion_pacientes.controller;
+package com.viajessolparaiso.gestion_ofertas.controller;
 
-import com.centromedico.gestion_pacientes.entity.Oferta;
-import com.centromedico.gestion_pacientes.service.OfertaService;
+import com.viajessolparaiso.gestion_ofertas.entity.Oferta;
+import com.viajessolparaiso.gestion_ofertas.service.OfertaService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-
-import java.time.LocalDateTime;
 
 @Controller
 @RequestMapping("/dashboard")

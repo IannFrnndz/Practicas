@@ -1,7 +1,7 @@
-package com.centromedico.gestion_pacientes.repository;
+package com.viajessolparaiso.gestion_ofertas.repository;
 
-import com.centromedico.gestion_pacientes.entity.EstadoOferta;
-import com.centromedico.gestion_pacientes.entity.Oferta;
+import com.viajessolparaiso.gestion_ofertas.entity.EstadoOferta;
+import com.viajessolparaiso.gestion_ofertas.entity.Oferta;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
