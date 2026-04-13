@@ -39,9 +39,7 @@ public class DataInitializer implements CommandLineRunner {
                 System.out.println("   - " + usuario.getNombre() +" - Activo: " + usuario.getActivo());
             });
 
-            // Opción: Actualizar contraseñas si es necesario
-            System.out.println("\n🔄 ¿Quieres recrear las contraseñas? (comenta/descomenta esta línea)");
-            // actualizarContrasenas(); // ⬅️ DESCOMENTA ESTA LÍNEA SI QUIERES RECREAR LAS CONTRASEÑAS
+
         }
 
         System.out.println("==========================================");
@@ -59,15 +57,7 @@ public class DataInitializer implements CommandLineRunner {
         System.out.println("🔐 Contraseña por defecto para todos: " + passwordPorDefecto);
         System.out.println("🔐 Hash BCrypt generado: " + passwordEncriptado.substring(0, 30) + "...");
 
-        // 1. ADMIN
-        Usuario admin = new Usuario();
-        admin.setNombre("admin1");
-        admin.setEmail("admin@centromedico.com");
-        admin.setPasswordHash(passwordEncriptado);
-        admin.setNombre("Administrador Principal");
-        admin.setActivo(true);
-        usuarioRepository.save(admin);
-        System.out.println("✅ Usuario creado: admin1 (ADMIN)");
+
 
     }
 
@@ -92,7 +82,7 @@ public class DataInitializer implements CommandLineRunner {
             System.out.println("   - Hash nuevo:    " + passwordEncriptado.substring(0, 30) + "...");
         });
 
-        System.out.println("\n✅ Todas las contraseñas han sido actualizadas");
+
     }
 
 
