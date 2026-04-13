@@ -1,7 +1,7 @@
+import os
 from openai import OpenAI
 
-client = OpenAI(api_key="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")
-
+client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 texto_ocr = """
 OFERTA ESPECIAL
 Viaje a París 5 días

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:replace="~{fragments/header :: header('Formulario Oferta')}"></th:block>
+</head>
+<body>
+
+<th:block th:replace="~{fragments/navbar :: navbar}"></th:block>
+
+<div class="main-content">
+    <div class="container">
+
+        <h1 class="mb-4">Formulario de Oferta</h1>
+
+        <form th:action="@{/ofertas/guardar}" th:object="${oferta}" method="post">
+
+            <input type="hidden" th:field="*{id}" />
+
+            <div class="mb-3">
+                <label class="form-label">Nombre</label>
+                <input type="text" class="form-control" th:field="*{nombre}" required>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Cliente</label>
+                <input type="text" class="form-control" th:field="*{cliente}" required>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Descripción</label>
+                <textarea class="form-control" rows="5" th:field="*{descripcion}"></textarea>
+            </div>
+
+            <div class="d-flex justify-content-between">
+
+                <a href="/ofertas" class="btn btn-secondary">
+                    Cancelar
+                </a>
+
+                <button type="submit" class="btn btn-success">
+                    Guardar
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+</div>
+
+<th:block th:replace="~{fragments/footer :: footer}"></th:block>
+
+</body>
+</html>

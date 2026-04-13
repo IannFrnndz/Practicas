@@ -22,10 +22,10 @@ public class AdminController {
         this.ofertaService = ofertaService;
     }
 
-    @GetMapping("/dashboard")
+    @GetMapping("/ofertas")
     public String panel(Model model) {
         model.addAttribute("ofertas", ofertaService.findAll());
-        return "dashboard";
+        return "ofertas";
     }
 
     @PostMapping("/crear")

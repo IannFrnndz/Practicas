@@ -1,28 +1,82 @@
 package com.centromedico.gestion_pacientes.controller;
 
-import com.centromedico.gestion_pacientes.entity.EstadoOferta;
 import com.centromedico.gestion_pacientes.entity.Oferta;
 import com.centromedico.gestion_pacientes.service.OfertaService;
-import com.centromedico.gestion_pacientes.repository.OfertaRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
-@RestController
-@RequestMapping("/api/ofertas")
+@Controller
+@RequestMapping("/ofertas")
 public class OfertaController {
 
-    @Autowired
-    private OfertaRepository ofertaRepository;
-    private OfertaService ofertaService;
+    private final OfertaService ofertaService;
 
-    // solo para ofertas publicadas
-    @GetMapping
-    public List<Oferta> getOfertas() {
-        return ofertaRepository.findByEstado(EstadoOferta.PUBLICADA);
+    public OfertaController(OfertaService ofertaService) {
+        this.ofertaService = ofertaService;
     }
 
+    // =====================================
+    // LISTA
+    // =====================================
+    @GetMapping({"", "/"})
+    public String listar(Model model) {
+        model.addAttribute("ofertas", ofertaService.findAll());
+        return "ofertas/list";
+    }
+
+    // =====================================
+    // DETALLE
+    // =====================================
+    @GetMapping("/{id}")
+    public String detalle(@PathVariable Long id, Model model) {
+        Oferta oferta = ofertaService.findById(id);
+        if (oferta == null) {
+            throw new IllegalArgumentException("Oferta no encontrada");
+        }
+
+        model.addAttribute("oferta", oferta);
+        return "ofertas/detail";
+    }
+
+    // =====================================
+    // FORM NUEVA
+    // =====================================
+    @GetMapping("/nueva")
+    public String nueva(Model model) {
+        model.addAttribute("oferta", new Oferta());
+        return "ofertas/form";
+    }
+
+    // =====================================
+    // FORM EDITAR
+    // =====================================
+    @GetMapping("/editar/{id}")
+    public String editar(@PathVariable Long id, Model model) {
+        Oferta oferta = ofertaService.findById(id);
+        if (oferta == null) {
+            throw new IllegalArgumentException("Oferta no encontrada");
+        }
+
+        model.addAttribute("oferta", oferta);
+        return "ofertas/form";
+    }
+
+    // =====================================
+    // GUARDAR (CREATE + UPDATE)
+    // =====================================
+    @PostMapping("/guardar")
+    public String guardar(@ModelAttribute Oferta oferta) {
+        ofertaService.save(oferta);
+        return "redirect:/ofertas";
+    }
+
+    // =====================================
+    // ELIMINAR
+    // =====================================
+    @PostMapping("/eliminar/{id}")
+    public String eliminar(@PathVariable Long id) {
+        ofertaService.delete(id);
+        return "redirect:/ofertas";
+    }
 }
