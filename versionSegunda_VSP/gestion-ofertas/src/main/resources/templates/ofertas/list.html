@@ -22,9 +22,10 @@
             <thead class="table-dark">
             <tr>
                 <th>ID</th>
-                <th>Nombre</th>
-                <th>Cliente</th>
-                <th>Fecha</th>
+                <th>Título</th>
+                <th>Precio</th>
+                <th>Fecha Validez</th>
+                <th>Estado</th>
                 <th class="text-end">Acciones</th>
             </tr>
             </thead>
@@ -32,9 +33,17 @@
             <tbody>
             <tr th:each="oferta : ${ofertas}">
                 <td th:text="${oferta.id}">1</td>
-                <td th:text="${oferta.nombre}">Oferta</td>
-                <td th:text="${oferta.cliente}">Cliente</td>
-                <td th:text="${#temporals.format(oferta.fechaCreacion, 'dd/MM/yyyy')}"></td>
+                <td th:text="${oferta.titulo}">Oferta</td>
+                <td th:text="${oferta.precio}">$0.00</td>
+                <td th:text="${#temporals.format(oferta.fechaValidez, 'dd/MM/yyyy')}"></td>
+                <td>
+                    <span th:if="${oferta.estado.name() == 'PUBLICADA'}" class="badge bg-success">
+                        <i class="bi bi-check-circle"></i> Publicada
+                    </span>
+                    <span th:unless="${oferta.estado.name() == 'PUBLICADA'}" class="badge bg-warning">
+                        <i class="bi bi-clock"></i> Borrador
+                    </span>
+                </td>
 
                 <td class="text-end">
                     <a th:href="@{/ofertas/{id}(id=${oferta.id})}"
@@ -47,15 +56,26 @@
                         Editar
                     </a>
 
+                    <!-- Publicar/Despublicar -->
+                    <a th:if="${oferta.estado.name() == 'BORRADOR'}"
+                       th:href="@{/ofertas/publicar/{id}(id=${oferta.id})}"
+                       class="btn btn-success btn-sm">
+                        <i class="bi bi-upload"></i> Publicar
+                    </a>
+                    <a th:if="${oferta.estado.name() == 'PUBLICADA'}"
+                       th:href="@{/ofertas/despublicar/{id}(id=${oferta.id})}"
+                       class="btn btn-secondary btn-sm">
+                        <i class="bi bi-pause"></i> Despublicar
+                    </a>
+
+                    <!-- Eliminar -->
                     <form th:action="@{/ofertas/eliminar/{id}(id=${oferta.id})}"
                           method="post"
                           style="display:inline;"
                           onsubmit="return confirm('¿Eliminar esta oferta?');">
-
                         <button class="btn btn-danger btn-sm">
-                            Borrar
+                            <i class="bi bi-trash"></i>
                         </button>
-
                     </form>
                 </td>
             </tr>

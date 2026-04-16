@@ -22,8 +22,7 @@ public class CustomUserDetails implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        // Convertimos el rol del usuario a GrantedAuthority
-        // Spring Security requiere el prefijo "ROLE_"
+        // Todos los usuarios logueados tienen permisos de admin
         return Collections.singleton(
                 new SimpleGrantedAuthority("ROLE_ADMIN")
         );
@@ -36,30 +35,30 @@ public class CustomUserDetails implements UserDetails {
 
     @Override
     public String getUsername() {
-        return usuario.getNombre();
+        // Retorna el email como identificador único
+        return usuario.getEmail();
     }
 
     @Override
     public boolean isAccountNonExpired() {
-        return true; // Las cuentas no expiran
+        return true;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return true; // Las cuentas no se bloquean
+        return true;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return true; // Las credenciales no expiran
+        return true;
     }
 
     @Override
     public boolean isEnabled() {
-        return usuario.getActivo(); // Usa el campo 'activo' de la BD
+        return usuario.getActivo();
     }
 
-    // Método adicional para obtener el usuario completo
     public Usuario getUsuario() {
         return usuario;
     }

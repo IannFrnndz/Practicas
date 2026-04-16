@@ -10,40 +10,60 @@
 <div class="main-content">
     <div class="container">
 
-        <h1 class="mb-4">Formulario de Oferta</h1>
+        <h1 class="mb-4">
+            <i class="bi bi-file-earmark-plus"></i>
+            <span th:if="${oferta.id == null}">Nueva Oferta</span>
+            <span th:unless="${oferta.id == null}">Editar Oferta</span>
+        </h1>
 
-        <form th:action="@{/ofertas/guardar}" th:object="${oferta}" method="post">
+        <div class="card">
+            <div class="card-body">
+                <form th:action="@{/ofertas/guardar}" th:object="${oferta}" method="post">
 
-            <input type="hidden" th:field="*{id}" />
+                    <input type="hidden" th:field="*{id}" />
+                    <input type="hidden" th:field="*{fechaCreacion}" />
+                    <input type="hidden" th:field="*{estado}" />
 
-            <div class="mb-3">
-                <label class="form-label">Nombre</label>
-                <input type="text" class="form-control" th:field="*{nombre}" required>
+                    <div class="mb-3">
+                        <label class="form-label">Título <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" th:field="*{titulo}" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Descripción</label>
+                        <textarea class="form-control" rows="5" th:field="*{descripcion}"></textarea>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Precio <span class="text-danger">*</span></label>
+                            <input type="number" step="0.01" class="form-control" th:field="*{precio}" required>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Fecha de Validez</label>
+                            <input type="date" class="form-control" th:field="*{fechaValidez}">
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">URL Imagen</label>
+                        <input type="url" class="form-control" th:field="*{imagenUrl}" placeholder="https://...">
+                    </div>
+
+                    <div class="d-flex justify-content-between">
+                        <a href="/ofertas" class="btn btn-secondary">
+                            <i class="bi bi-x-circle"></i> Cancelar
+                        </a>
+
+                        <button type="submit" class="btn btn-success">
+                            <i class="bi bi-save"></i> Guardar
+                        </button>
+                    </div>
+
+                </form>
             </div>
-
-            <div class="mb-3">
-                <label class="form-label">Cliente</label>
-                <input type="text" class="form-control" th:field="*{cliente}" required>
-            </div>
-
-            <div class="mb-3">
-                <label class="form-label">Descripción</label>
-                <textarea class="form-control" rows="5" th:field="*{descripcion}"></textarea>
-            </div>
-
-            <div class="d-flex justify-content-between">
-
-                <a href="/ofertas" class="btn btn-secondary">
-                    Cancelar
-                </a>
-
-                <button type="submit" class="btn btn-success">
-                    Guardar
-                </button>
-
-            </div>
-
-        </form>
+        </div>
 
     </div>
 </div>

@@ -33,10 +33,11 @@ public class SecurityConfig {
                         // Login admin
                         .requestMatchers("/login", "/css/**", "/js/**", "/img/**").permitAll()
 
-                        // Panel admin web
+                        // Panel admin web - requiere autenticación
+                        .requestMatchers("/panel/**").hasRole("ADMIN")
                         .requestMatchers("/dashboard/**").hasRole("ADMIN")
 
-                        // todo lo demas protegido
+                        // todo lo demás protegido
                         .anyRequest().authenticated()
                 )
 
@@ -48,7 +49,7 @@ public class SecurityConfig {
                         .loginProcessingUrl("/login")
                         .defaultSuccessUrl("/dashboard", true)
                         .failureUrl("/login?error=true")
-                        .usernameParameter("email")
+                        .usernameParameter("email")      // Parámetro del formulario: email
                         .passwordParameter("password")
                         .permitAll()
                 )
