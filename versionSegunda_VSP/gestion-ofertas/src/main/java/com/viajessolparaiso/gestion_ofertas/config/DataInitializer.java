@@ -82,8 +82,6 @@ public class DataInitializer implements CommandLineRunner {
             System.out.println("   - Hash nuevo:    " + passwordEncriptado.substring(0, 30) + "...");
         });
 
-
     }
-
 
 }
