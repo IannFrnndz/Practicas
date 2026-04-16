@@ -37,10 +37,10 @@
                 <td th:text="${oferta.precio}">$0.00</td>
                 <td th:text="${#temporals.format(oferta.fechaValidez, 'dd/MM/yyyy')}"></td>
                 <td>
-                    <span th:if="${oferta.estado.name() == 'PUBLICADA'}" class="badge bg-success">
+                    <span th:if="${oferta.estado != null and oferta.estado.name() == 'PUBLICADA'}" class="badge bg-success">
                         <i class="bi bi-check-circle"></i> Publicada
                     </span>
-                    <span th:unless="${oferta.estado.name() == 'PUBLICADA'}" class="badge bg-warning">
+                    <span th:if="${oferta.estado == null or oferta.estado.name() == 'BORRADOR'}" class="badge bg-warning">
                         <i class="bi bi-clock"></i> Borrador
                     </span>
                 </td>

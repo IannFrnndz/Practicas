@@ -3,6 +3,7 @@ package com.viajessolparaiso.gestion_ofertas.service;
 import com.viajessolparaiso.gestion_ofertas.entity.EstadoOferta;
 import com.viajessolparaiso.gestion_ofertas.entity.Oferta;
 import com.viajessolparaiso.gestion_ofertas.repository.OfertaRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -11,6 +12,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class OfertaService {
 
     private final OfertaRepository ofertaRepository;
@@ -29,6 +31,9 @@ public class OfertaService {
     public Oferta save(Oferta oferta) {
         if (oferta.getFechaCreacion() == null) {
             oferta.setFechaCreacion(LocalDateTime.now());
+        }
+        if (oferta.getEstado() == null) {
+            oferta.setEstado(EstadoOferta.BORRADOR);  // Estado por defecto
         }
         return ofertaRepository.save(oferta);
     }
