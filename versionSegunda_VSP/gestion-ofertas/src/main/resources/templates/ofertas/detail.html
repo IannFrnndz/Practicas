@@ -50,7 +50,7 @@
                             </tr>
                             <tr>
                                 <th>Precio:</th>
-                                <td><strong th:text="${'$' + #numbers.formatDecimal(oferta.precio, 1, 2)}">$0.00</strong></td>
+                                <td><strong th:text="${#numbers.formatDecimal(oferta.precio, 1, 2) + '€'}">0.00€</strong></td>
                             </tr>
                             <tr>
                                 <th>Fecha Validez:</th>

@@ -34,7 +34,7 @@
             <tr th:each="oferta : ${ofertas}">
                 <td th:text="${oferta.id}">1</td>
                 <td th:text="${oferta.titulo}">Oferta</td>
-                <td th:text="${oferta.precio}">$0.00</td>
+                <td th:text="${oferta.precio}">0.00€</td>
                 <td th:text="${#temporals.format(oferta.fechaValidez, 'dd/MM/yyyy')}"></td>
                 <td>
                     <span th:if="${oferta.estado != null and oferta.estado.name() == 'PUBLICADA'}" class="badge bg-success">
