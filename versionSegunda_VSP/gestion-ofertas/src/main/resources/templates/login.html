@@ -73,8 +73,8 @@
             <div class="col-md-6">
                 <div class="login-card">
                     <div class="login-header">
-                        <img src="/static/img/logo-redondo.png" height="100" width="100"/>
-                        <h3>Viajes SolParaiso</h3>
+                        <img th:src="@{/img/LogoAlargado.jpg}" height="70" width="340"/>
+                        <h3>Viajes Solparaiso</h3>
                         <p class="mb-0">Inicio de Sesión</p>
                     </div>
 
@@ -91,7 +91,7 @@
                             <span th:text="${mensaje}">Mensaje</span>
                         </div>
 
-                        <!-- Formulario de Login -->
+                        <!-- Formulario -->
                         <form th:action="@{/login}" method="post">
                             <div class="mb-3">
                                 <label for="email" class="form-label">
@@ -123,14 +123,6 @@
                             </button>
                         </form>
 
-                        <!-- Información de credenciales de prueba -->
-<!--                        <div class="credentials-info">-->
-<!--                            <strong><i class="bi bi-info-circle"></i> Credenciales de prueba:</strong>-->
-<!--                            <ul class="mb-0 mt-2" style="list-style: none; padding-left: 0;">-->
-<!--                                <li><strong>ADMIN:</strong> admin@centromedico.com / password</li>-->
-<!--                                <li><strong>ADMIN BDD:</strong> admin@admin.com / 1234_encriptado</li>-->
-<!--                            </ul>-->
-<!--                        </div>-->
                     </div>
                 </div>
             </div>
