@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
-import 'ofertas_screen.dart';
+import 'ofertas_screens.dart';
 
 class HomeScreen extends StatelessWidget {
+
+  HomeScreen({super.key});
+
   final List<String> categorias = [
     "DISNEY",
     "FESTIVOS",
@@ -20,39 +23,58 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
+
       appBar: AppBar(
-        title: Text("Ofertas Viajes Solparaiso"),
+        title: const Text("Viajes Solparaíso"),
       ),
+
       body: GridView.builder(
-        padding: EdgeInsets.all(10),
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+
+        padding: const EdgeInsets.all(12),
+
+        itemCount: categorias.length,
+
+        gridDelegate:
+        const SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
-          childAspectRatio: 1.2,
           crossAxisSpacing: 10,
           mainAxisSpacing: 10,
+          childAspectRatio: 1.2,
         ),
-        itemCount: categorias.length,
+
         itemBuilder: (context, index) {
+
           final categoria = categorias[index];
 
-          return GestureDetector(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (_) => OfertasScreen(categoria: categoria),
-                ),
-              );
-            },
-            child: Card(
-              color: Colors.blueAccent,
+          return Card(
+
+            elevation: 3,
+
+            child: InkWell(
+
+              borderRadius: BorderRadius.circular(12),
+
+              onTap: () {
+
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => OfertasScreen(
+                      categoria: categoria,
+                    ),
+                  ),
+                );
+              },
+
               child: Center(
                 child: Text(
                   categoria,
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 20,
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
               ),

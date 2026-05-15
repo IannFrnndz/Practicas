@@ -1,102 +1,134 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../models/oferta.dart';
+
 class OfertaDetailScreen extends StatelessWidget {
 
-  final Map<String, dynamic> oferta;
+  final Oferta oferta;
 
-  const OfertaDetailScreen({super.key, required this.oferta});
+  const OfertaDetailScreen({
+    super.key,
+    required this.oferta,
+  });
+
+  Future<void> enviarCorreo(BuildContext context) async {
+
+    final uri = Uri(
+      scheme: 'mailto',
+      path: 'viajessolparaiso@gmail.com',
+      query:
+      'subject=Consulta oferta ${oferta.titulo}',
+    );
+
+    // control de errores con mensajes personalizados
+    try {
+
+      if (await canLaunchUrl(uri)) {
+
+        await launchUrl(uri);
+
+      } else {
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text(
+              'No hay aplicación de correo instalada',
+            ),
+          ),
+        );
+      }
+
+    } catch (e) {
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            'Error al abrir correo: $e',
+          ),
+        ),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
+
       appBar: AppBar(
-        title: Text(oferta["titulo"] ?? "Detalle"),
+        title: Text(oferta.titulo),
       ),
+
       body: SingleChildScrollView(
+
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+
+          crossAxisAlignment:
+          CrossAxisAlignment.start,
+
           children: [
 
-            // imagen
-            oferta["imagenUrl"] != null
-                ? Image.network(
-              oferta["imagenUrl"],
-              width: double.infinity,
-              height: 250,
-              fit: BoxFit.cover,
-            )
-                : Container(
-              height: 250,
-              color: Colors.grey,
-              child: Center(child: Icon(Icons.image, size: 50)),
-            ),
+            if (oferta.imagenUrl.isNotEmpty)
 
-            SizedBox(height: 16),
+              Image.network(
+                oferta.imagenUrl,
+                width: double.infinity,
+                height: 250,
+                fit: BoxFit.cover,
+              ),
 
             Padding(
-              padding: const EdgeInsets.all(16.0),
+
+              padding: const EdgeInsets.all(16),
+
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+
+                crossAxisAlignment:
+                CrossAxisAlignment.start,
+
                 children: [
 
-                  // nombre de la oferta
                   Text(
-                    oferta["titulo"] ?? "",
-                    style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                    oferta.titulo,
+                    style: const TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
 
-                  SizedBox(height: 10),
+                  const SizedBox(height: 15),
 
-                  // precio
                   Text(
-                    "💰 ${oferta["precio"]} €",
-                    style: TextStyle(fontSize: 18, color: Colors.green),
+                    '${oferta.precio} €',
+                    style: const TextStyle(
+                      fontSize: 20,
+                    ),
                   ),
 
-                  SizedBox(height: 10),
+                  const SizedBox(height: 20),
 
-                  // categoria
                   Text(
-                    "🌍 ${oferta["categoria"]}",
-                    style: TextStyle(fontSize: 16),
+                    oferta.descripcion,
+                    style: const TextStyle(
+                      fontSize: 16,
+                    ),
                   ),
 
-                  SizedBox(height: 20),
+                  const SizedBox(height: 30),
 
-                  // descripcion de la oferta
-                  Text(
-                    oferta["descripcion"] ?? "Sin descripción",
-                    style: TextStyle(fontSize: 16),
-                  ),
-
-                  SizedBox(height: 30),
-
-                  // solicitud de mas informacion por el correo
                   SizedBox(
+
                     width: double.infinity,
+
                     child: ElevatedButton(
-                      onPressed: () async {
 
-                        final titulo = oferta["titulo"] ?? "";
-                        final uri = Uri(
-                          scheme: 'mailto',
-                          path: 'viajessolparaiso@gmail.com',
-                          query: Uri.encodeFull(
-                              'subject=Consulta sobre oferta: $titulo&body=Hola, estoy interesado en la oferta "$titulo". Me gustaría recibir más información.'
-                          ),
-                        );
+                      onPressed: () => enviarCorreo(context),
 
-                        if (await canLaunchUrl(uri)) {
-                          await launchUrl(uri);
-                        } else {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text("No se pudo abrir el correo")),
-                          );
-                        }
-                      },
-                      child: Text("Solicitar más información"),
-                    )
+                      child: const Text(
+                        'Solicitar información',
+                      ),
+                    ),
                   )
                 ],
               ),

@@ -1,19 +1,34 @@
 import 'dart:convert';
+
 import 'package:http/http.dart' as http;
+
+import '../config/api_config.dart';
+import '../models/oferta.dart';
 
 class OfertaService {
 
-  static const String baseUrl = "http://192.168.0.21:8085/api";
+  static Future<List<Oferta>> getByCategoria(String categoria) async {
 
-  static Future<List<dynamic>> getByCategoria(String categoria) async {
     final response = await http.get(
-      Uri.parse('$baseUrl/ofertas/categoria/$categoria'),
+      Uri.parse(
+        '${ApiConfig.baseUrl}/ofertas/categoria/$categoria',
+      ),
     );
 
     if (response.statusCode == 200) {
-      return jsonDecode(response.body);
+
+      final List<dynamic> data = jsonDecode(response.body);
+
+      return data
+          .map((json) => Oferta.fromJson(json))
+          .toList();
+
     } else {
-      throw Exception("Error al cargar ofertas");
+
+      throw Exception(
+        'Error al cargar ofertas: ${response.statusCode}',
+      );
+
     }
   }
 }
