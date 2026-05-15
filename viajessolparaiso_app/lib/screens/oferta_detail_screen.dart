@@ -16,7 +16,7 @@ class OfertaDetailScreen extends StatelessWidget {
 
     final uri = Uri(
       scheme: 'mailto',
-      path: 'viajessolparaiso@gmail.com',
+      path: 'reservas@viajessolparaiso.com',
       query:
       'subject=Consulta oferta ${oferta.titulo}',
     );
