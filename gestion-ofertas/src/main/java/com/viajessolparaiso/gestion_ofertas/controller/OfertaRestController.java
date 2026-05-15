@@ -5,6 +5,7 @@ import com.viajessolparaiso.gestion_ofertas.entity.Oferta;
 import com.viajessolparaiso.gestion_ofertas.service.OfertaService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+import jakarta.validation.Valid;
 
 import java.util.List;
 
@@ -29,13 +30,13 @@ public class OfertaRestController {
 
     // CREAR OFERTA
     @PostMapping
-    public Oferta crear(@RequestBody Oferta oferta) {
+    public Oferta crear(@Valid @RequestBody Oferta oferta) {
         return ofertaService.save(oferta);
     }
 
     // EDITAR OFERTA
     @PutMapping("/{id}")
-    public Oferta editar(@PathVariable Long id, @RequestBody Oferta oferta) {
+    public Oferta editar(@PathVariable Long id, @Valid @RequestBody Oferta oferta) {
         oferta.setId(id);
         return ofertaService.save(oferta);
     }

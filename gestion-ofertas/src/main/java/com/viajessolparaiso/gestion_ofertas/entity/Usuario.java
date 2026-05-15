@@ -5,10 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import jakarta.validation.constraints.*;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Table(name = "usuarios")
@@ -22,12 +20,16 @@ public class Usuario {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Email(message = "Email inválido")
+    @NotBlank(message = "El email es obligatorio")
     @Column(nullable = false, unique = true, length = 100)
     private String email;
 
+    @NotBlank(message = "La contraseña es obligatoria")
     @Column(name = "password_hash", nullable = false, length = 255)
     private String passwordHash;
 
+    @NotBlank(message = "El nombre es obligatorio")
     @Column(nullable = false, length = 100)
     private String nombre;
 
