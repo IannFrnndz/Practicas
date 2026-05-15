@@ -7,10 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
-/**
- * Repositorio para la entidad Usuario
- * Proporciona métodos para acceder a los datos de usuarios
- */
+
 @Repository
 public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
 
