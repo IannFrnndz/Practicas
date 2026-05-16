@@ -36,6 +36,12 @@
             margin-bottom: 1rem;
         }
 
+        /* 🔹 FIX imagen responsive */
+        .login-header img {
+            max-width: 100%;
+            height: auto;
+        }
+
         .login-body {
             padding: 2rem;
         }
@@ -64,6 +70,18 @@
             margin-top: 1rem;
             font-size: 0.9rem;
         }
+
+        /* 🔹 RESPONSIVE (solo móvil, no rompe desktop) */
+        @media (max-width: 768px) {
+            .login-container {
+                margin-left: 0;
+                padding: 1rem;
+            }
+
+            .login-card {
+                margin: 0 10px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -73,11 +91,10 @@
             <div class="col-md-6">
                 <div class="login-card">
                     <div class="login-header">
-                        <img th:src="@{/img/LogoAlargado.jpg}" height="70" width="340"/>
+                        <img th:src="@{/img/LogoAlargado.jpg}"/>
                         <h3>Viajes Solparaiso</h3>
                         <p class="mb-0">Inicio de Sesión</p>
                     </div>
-
 
                     <div class="login-body">
                         <!-- Mensajes de error/éxito -->
