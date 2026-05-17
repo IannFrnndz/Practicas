@@ -14,38 +14,25 @@ class OfertaDetailScreen extends StatelessWidget {
 
   Future<void> enviarCorreo(BuildContext context) async {
 
-    final uri = Uri(
-      scheme: 'mailto',
-      path: 'reservas@viajessolparaiso.com',
-      query:
-      'subject=Consulta oferta ${oferta.titulo}',
+    final subject = Uri.encodeComponent('Consulta oferta ${oferta.titulo}');
+    final body = Uri.encodeComponent('Hola, estoy interesado en la oferta ${oferta.titulo}');
+
+    final uri = Uri.parse(
+      'mailto:reservas@viajessolparaiso.com?subject=$subject&body=$body',
     );
 
-    // control de errores con mensajes personalizados
     try {
 
-      if (await canLaunchUrl(uri)) {
-
-        await launchUrl(uri);
-
-      } else {
-
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text(
-              'No hay aplicación de correo instalada',
-            ),
-          ),
-        );
-      }
+      await launchUrl(
+        uri,
+        mode: LaunchMode.externalApplication,
+      );
 
     } catch (e) {
 
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text(
-            'Error al abrir correo: $e',
-          ),
+          content: Text('Error al abrir correo: $e'),
         ),
       );
     }
@@ -64,8 +51,7 @@ class OfertaDetailScreen extends StatelessWidget {
 
         child: Column(
 
-          crossAxisAlignment:
-          CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
 
           children: [
 
@@ -84,8 +70,7 @@ class OfertaDetailScreen extends StatelessWidget {
 
               child: Column(
 
-                crossAxisAlignment:
-                CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
 
                 children: [
 
