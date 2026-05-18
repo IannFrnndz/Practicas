@@ -16,65 +16,158 @@
             <span th:unless="${oferta.id == null}">Editar Oferta</span>
         </h1>
 
+        <div th:if="${error}" class="alert alert-danger">
+            <span th:text="${error}"></span>
+        </div>
+
+        <!-- FORMULARIO PDF + IA -->
+        <form action="/ofertas/probar-pdf"
+              method="post"
+              enctype="multipart/form-data"
+              class="mb-4">
+
+            <!-- CSRF TOKEN -->
+            <input type="hidden"
+                   th:name="${_csrf.parameterName}"
+                   th:value="${_csrf.token}" />
+
+            <div class="mb-3">
+                <label class="form-label">
+                    Subir PDF de oferta
+                </label>
+
+                <input type="file"
+                       name="file"
+                       class="form-control"
+                       accept=".pdf"
+                       required>
+            </div>
+
+            <button type="submit" class="btn btn-primary">
+                <i class="bi bi-file-earmark-pdf"></i>
+                Analizar PDF con IA
+            </button>
+
+        </form>
+
+        <!-- FORMULARIO NORMAL -->
         <div class="card">
             <div class="card-body">
-                <form th:action="@{/ofertas/guardar}" th:object="${oferta}" method="post">
+
+                <form th:action="@{/ofertas/guardar}"
+                      th:object="${oferta}"
+                      method="post">
 
                     <input type="hidden" th:field="*{id}" />
                     <input type="hidden" th:field="*{fechaCreacion}" />
                     <input type="hidden" th:field="*{estado}" />
 
                     <div class="mb-3">
-                        <label class="form-label">Título <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" th:field="*{titulo}" required>
+                        <label class="form-label">
+                            Título <span class="text-danger">*</span>
+                        </label>
+
+                        <input type="text"
+                               class="form-control"
+                               th:field="*{titulo}"
+                               required>
                     </div>
 
                     <div class="mb-3">
-                        <label class="form-label">Descripción</label>
-                        <textarea class="form-control" rows="5" th:field="*{descripcion}"></textarea>
+                        <label class="form-label">
+                            Descripción
+                        </label>
+
+                        <textarea class="form-control"
+                                  rows="5"
+                                  th:field="*{descripcion}">
+                        </textarea>
                     </div>
 
                     <div class="row">
+
                         <div class="col-md-6 mb-3">
-                            <label class="form-label">Precio <span class="text-danger">*</span></label>
-                            <input type="number" step="0.01" class="form-control" th:field="*{precio}" required>
+                            <label class="form-label">
+                                Precio <span class="text-danger">*</span>
+                            </label>
+
+                            <input type="number"
+                                   step="0.01"
+                                   class="form-control"
+                                   th:field="*{precio}"
+                                   required>
                         </div>
 
                         <div class="col-md-6 mb-3">
-                            <label class="form-label">Fecha de Validez</label>
-                            <input type="date" class="form-control" th:field="*{fechaValidez}">
+                            <label class="form-label">
+                                Fecha de Validez
+                            </label>
+
+                            <input type="date"
+                                   class="form-control"
+                                   th:field="*{fechaValidez}">
                         </div>
+
                     </div>
 
                     <div class="mb-3">
-                        <label class="form-label">Categoría <span class="text-danger">*</span></label>
 
-                        <select class="form-select" th:field="*{categoria}" required>
-                            <option value="" disabled selected>Selecciona una categoría</option>
+                        <label class="form-label">
+                            Categoría <span class="text-danger">*</span>
+                        </label>
+
+                        <select class="form-select"
+                                th:field="*{categoria}"
+                                required>
+
+                            <option value="" disabled selected>
+                                Selecciona una categoría
+                            </option>
 
                             <option th:each="cat : ${categorias}"
                                     th:value="${cat}"
                                     th:text="${#strings.capitalize(cat.name().toLowerCase())}">
                             </option>
+
                         </select>
+
                     </div>
 
                     <div class="mb-3">
-                        <label class="form-label">URL Imagen</label>
-                        <input type="url" class="form-control" th:field="*{imagenUrl}" placeholder="https://...">
+
+                        <label class="form-label">
+                            URL Imagen
+                        </label>
+
+                        <input type="url"
+                               class="form-control"
+                               th:field="*{imagenUrl}"
+                               placeholder="https://...">
+
                     </div>
 
                     <div class="d-flex justify-content-between">
-                        <a href="/ofertas" class="btn btn-secondary">
-                            <i class="bi bi-x-circle"></i> Cancelar
+
+                        <a href="/ofertas"
+                           class="btn btn-secondary">
+
+                            <i class="bi bi-x-circle"></i>
+                            Cancelar
+
                         </a>
 
-                        <button type="submit" class="btn btn-success">
-                            <i class="bi bi-save"></i> Guardar
+                        <button type="submit"
+                                class="btn btn-success">
+
+                            <i class="bi bi-save"></i>
+                            Guardar
+
                         </button>
+
                     </div>
 
                 </form>
+
             </div>
         </div>
 

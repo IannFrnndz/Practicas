@@ -2,20 +2,25 @@ package com.viajessolparaiso.gestion_ofertas.controller;
 
 import com.viajessolparaiso.gestion_ofertas.config.CustomUserDetails;
 import com.viajessolparaiso.gestion_ofertas.entity.Oferta;
+import com.viajessolparaiso.gestion_ofertas.service.GroqService;
 import com.viajessolparaiso.gestion_ofertas.service.OfertaService;
 import com.viajessolparaiso.gestion_ofertas.entity.Categoria;
+import com.viajessolparaiso.gestion_ofertas.service.PdfService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @Controller
 @RequestMapping("/ofertas")
 @RequiredArgsConstructor
 public class OfertaController {
+    private final PdfService pdfService;
 
     private final OfertaService ofertaService;
+    private final GroqService groqService;
 
     // LISTAR TODAS LAS OFERTAS
     @GetMapping({"", "/"})
@@ -39,6 +44,52 @@ public class OfertaController {
         model.addAttribute("oferta", oferta);
         model.addAttribute("usuario", userDetails.getUsuario());
         return "ofertas/detail";
+    }
+
+    // EXTRACCION DE TEXTO
+    @PostMapping("/probar-pdf")
+    public String probarPdf(
+            @RequestParam("file") MultipartFile file,
+            @AuthenticationPrincipal CustomUserDetails userDetails,
+            Model model
+    ) {
+
+        try {
+
+            String texto = pdfService.extraerTexto(file);
+
+            var datosIa = groqService.analizarTexto(texto);
+
+            Oferta oferta = new Oferta();
+
+            oferta.setTitulo(datosIa.getTitulo());
+            oferta.setDescripcion(datosIa.getDescripcion());
+            oferta.setPrecio(datosIa.getPrecio());
+
+            if (datosIa.getFechaValidez() != null &&
+                    !datosIa.getFechaValidez().isBlank()) {
+
+                oferta.setFechaValidez(
+                        java.time.LocalDate.parse(datosIa.getFechaValidez())
+                );
+            }
+
+            oferta.setCategoria(datosIa.getCategoria());
+            oferta.setImagenUrl(datosIa.getImagenUrl());
+
+            model.addAttribute("oferta", oferta);
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
+
+            throw new RuntimeException(e);
+        }
+
+        model.addAttribute("usuario", userDetails.getUsuario());
+        model.addAttribute("categorias", Categoria.values());
+
+        return "ofertas/form";
     }
 
     // FORMULARIO PARA CREAR NUEVA OFERTA
