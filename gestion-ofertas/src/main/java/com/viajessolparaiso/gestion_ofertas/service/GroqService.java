@@ -33,40 +33,85 @@ public class GroqService {
                 .build();
 
         String prompt = """
-                Analiza este PDF de una oferta de viajes.
+        Analiza este PDF de una oferta de viajes.
 
-                Extrae:
-                - titulo
-                - descripcion
-                - precio
-                - fechaValidez
-                - categoria
-                - imagenUrl
+        Extrae:
+        - titulo
+        - descripcion
+        - precio
+        - fechaValidez
+        - categoria
 
-                Las categorias válidas son:
-                DISNEY,
-                FESTIVOS,
-                ESPAÑA,
-                EUROPA,
-                AMERICA,
-                CARIBE,
-                AFRICA,
-                ASIA,
-                OCEANIA,
-                EXCURSIONES,
-                ULTIMA_HORA,
-                COMUNIDAD_DE_MADRID,
-                CRUCEROS
+        Las categorias válidas son:
+        DISNEY,
+        FESTIVOS,
+        ESPAÑA,
+        EUROPA,
+        AMERICA,
+        CARIBE,
+        AFRICA,
+        ASIA,
+        OCEANIA,
+        EXCURSIONES,
+        ULTIMA_HORA,
+        COMUNIDAD_DE_MADRID,
+        CRUCEROS
 
-                IMPORTANTE:
-                - Devuelve SOLO JSON
-                - No expliques nada
-                - precio debe ser número
-                - fechaValidez formato yyyy-MM-dd
-                - categoria debe coincidir EXACTAMENTE
+        REGLAS IMPORTANTES:
 
-                Texto PDF:
-                """ + textoPdf;
+        - Devuelve SOLO JSON válido
+        - No expliques nada
+        - precio debe ser número
+        - fechaValidez formato yyyy-MM-dd
+        - categoria debe coincidir EXACTAMENTE
+        - Si aparecen varios países europeos usa EUROPA
+        - Si no estás seguro de la categoría usa la más general posible
+        - NUNCA dejes categoria vacía
+        - NUNCA inventes categorías nuevas
+        - categoria debe ser obligatoriamente una de las categorías válidas
+        EJEMPLOS DE CATEGORIAS:
+        
+        - Albania y Macedonia -> EUROPA
+        - Punta Cana -> CARIBE
+        - Japón -> ASIA
+        - Disney Orlando -> DISNEY
+        - Crucero Mediterráneo -> CRUCEROS
+        
+        - NO inventes información
+        - La descripcion debe ser comercial y clara
+        - La descripcion debe incluir:
+            * destino
+            * duración
+            * hotel si aparece
+            * régimen alimenticio
+            * vuelos si aparecen
+        - La descripcion debe ser un resumen comercial estructurado
+        - Resume únicamente la información importante para el cliente
+        - Ignora condiciones legales, teléfonos y textos promocionales irrelevantes
+        - Si existen listas de servicios o visitas, conviértelas en puntos resumidos
+        - La descripcion debe ser clara y fácil de leer
+        - Usa saltos de línea
+        - Máximo 800 caracteres
+        - La última línea de la descripcion debe ser SIEMPRE:
+          PRECIO DESDE: X€
+        - Sustituye X por el precio extraído
+        - PRECIO DESDE debe ir en MAYÚSCULAS
+
+        EJEMPLO DE DESCRIPCION IDEAL:
+
+        Descubre Egipto con un circuito completo incluyendo vuelos y crucero por el Nilo.
+
+        El viaje incluye:
+        - Crucero por el Nilo en pensión completa
+        - Estancia en El Cairo
+        - Excursión a Abu Simbel
+        - Visitas guiadas y entradas incluidas
+        - Guía en español y traslados
+
+        PRECIO DESDE: 1299€
+
+        Texto PDF:
+        """ + textoPdf;
 
         String body = """
                 {

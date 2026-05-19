@@ -14,7 +14,7 @@ public class OfertaPdfData {
 
     private String fechaValidez;
 
-    private Categoria categoria;
+    private String categoria;
 
     private String imagenUrl;
 }

@@ -74,7 +74,18 @@ public class OfertaController {
                 );
             }
 
-            oferta.setCategoria(datosIa.getCategoria());
+            try {
+                oferta.setCategoria(
+                        Categoria.valueOf(
+                                datosIa.getCategoria().trim().toUpperCase()
+                        )
+                );
+            } catch (Exception e) {
+
+                System.out.println("Categoria IA inválida: " + datosIa.getCategoria());
+
+                oferta.setCategoria(Categoria.EUROPA);
+            }
             oferta.setImagenUrl(datosIa.getImagenUrl());
 
             model.addAttribute("oferta", oferta);
