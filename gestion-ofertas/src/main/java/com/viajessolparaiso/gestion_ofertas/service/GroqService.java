@@ -90,7 +90,8 @@ public class GroqService {
         - Ignora condiciones legales, teléfonos y textos promocionales irrelevantes
         - Si existen listas de servicios o visitas, conviértelas en puntos resumidos
         - La descripcion debe ser clara y fácil de leer
-        - Usa saltos de línea
+        - NO uses saltos de línea reales
+        - Usa \\n para separar líneas en el JSON 
         - Máximo 800 caracteres
         - La última línea de la descripcion debe ser SIEMPRE:
           PRECIO DESDE: X€
@@ -99,17 +100,10 @@ public class GroqService {
 
         EJEMPLO DE DESCRIPCION IDEAL:
 
-        Descubre Egipto con un circuito completo incluyendo vuelos y crucero por el Nilo.
+        
+        Descubre Egipto con vuelos y crucero por el Nilo.\\\\n\\\\nEl viaje incluye:\\\\n- Crucero por el Nilo\\\\n- Estancia en El Cairo\\\\n\\\\nPRECIO DESDE: 1299€
 
-        El viaje incluye:
-        - Crucero por el Nilo en pensión completa
-        - Estancia en El Cairo
-        - Excursión a Abu Simbel
-        - Visitas guiadas y entradas incluidas
-        - Guía en español y traslados
-
-        PRECIO DESDE: 1299€
-
+       
         Texto PDF:
         """ + textoPdf;
 
@@ -156,6 +150,14 @@ public class GroqService {
         System.out.println("=== JSON LIMPIO ===");
         System.out.println(content);
 
-        return objectMapper.readValue(content, OfertaPdfData.class);
+        OfertaPdfData data = objectMapper.readValue(content, OfertaPdfData.class);
+
+        if (data.getDescripcion() != null) {
+            data.setDescripcion(
+                    data.getDescripcion().replace("\\n", "\n")
+            );
+        }
+
+        return data;
     }
 }

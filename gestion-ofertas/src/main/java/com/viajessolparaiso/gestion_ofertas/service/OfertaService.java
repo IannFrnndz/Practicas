@@ -7,6 +7,8 @@ import com.viajessolparaiso.gestion_ofertas.repository.OfertaRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.scheduling.annotation.Scheduled;
+import java.time.LocalDate;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -29,6 +31,24 @@ public class OfertaService {
                 categoria,
                 EstadoOferta.PUBLICADA
         );
+    }
+
+    // pasar las ofertas publicadas a borrador cuando pase el tiempo limite
+    @Scheduled(cron = "0 0 0 * * *")
+    public void despublicarOfertasVencidas() {
+
+        List<Oferta> ofertasVencidas =
+                ofertaRepository.findByEstadoAndFechaValidezLessThan(
+                        EstadoOferta.PUBLICADA,
+                        LocalDate.now()
+                );
+
+        for (Oferta oferta : ofertasVencidas) {
+
+            oferta.setEstado(EstadoOferta.BORRADOR);
+            ofertaRepository.save(oferta);
+
+        }
     }
 
     // Crear o actualizar oferta

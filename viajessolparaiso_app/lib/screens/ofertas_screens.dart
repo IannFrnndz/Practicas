@@ -194,24 +194,7 @@ class _OfertasScreenState extends State<OfertasScreen> {
 
                             const SizedBox(height: 12),
 
-                            // CATEGORIA
-                            Row(
-                              children: [
-                                Icon(
-                                  Icons.place,
-                                  color: Colors.orange.shade600,
-                                  size: 18,
-                                ),
-                                const SizedBox(width: 6),
-                                Text(
-                                  oferta.categoria,
-                                  style: TextStyle(
-                                    color: Colors.orange.shade700,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                ),
-                              ],
-                            ),
+
 
                           ],
                         ),

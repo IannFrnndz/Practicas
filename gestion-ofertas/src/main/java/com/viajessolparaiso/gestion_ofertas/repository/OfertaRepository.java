@@ -5,9 +5,13 @@ import com.viajessolparaiso.gestion_ofertas.entity.EstadoOferta;
 import com.viajessolparaiso.gestion_ofertas.entity.Oferta;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public interface
 OfertaRepository extends JpaRepository<Oferta, Long> {
     List<Oferta> findByCategoriaAndEstado(Categoria categoria, EstadoOferta estado);
+
+    List<Oferta> findByEstadoAndFechaValidezLessThan(EstadoOferta estado, LocalDate fecha);
 }
+
