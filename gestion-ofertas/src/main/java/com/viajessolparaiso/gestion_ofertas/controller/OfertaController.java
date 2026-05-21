@@ -28,19 +28,40 @@ public class OfertaController {
     public String listar(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "5") int size,
+            @RequestParam(required = false) String buscar,
             @AuthenticationPrincipal CustomUserDetails userDetails,
             Model model
     ) {
 
-        Page<Oferta> ofertasPage =
-                ofertaService.findPaginated(page, size);
+        Page<Oferta> ofertasPage;
 
-        model.addAttribute("ofertas", ofertasPage.getContent());
+        if (buscar != null && !buscar.isBlank()) {
 
-        model.addAttribute("currentPage", page);
+            ofertasPage = ofertaService.buscarPorTitulo(
+                    buscar,
+                    page,
+                    size
+            );
+
+        } else {
+
+            ofertasPage = ofertaService.findPaginated(
+                    page,
+                    size
+            );
+        }
+
+        model.addAttribute("ofertas",
+                ofertasPage.getContent());
+
+        model.addAttribute("currentPage",
+                page);
 
         model.addAttribute("totalPages",
                 ofertasPage.getTotalPages());
+
+        model.addAttribute("buscar",
+                buscar);
 
         model.addAttribute("usuario",
                 userDetails.getUsuario());

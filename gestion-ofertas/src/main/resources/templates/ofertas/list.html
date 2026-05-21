@@ -50,7 +50,36 @@
             <a href="/ofertas/nueva" class="btn btn-success">
                 <i class="bi bi-plus-circle"></i> Nueva oferta
             </a>
+
         </div>
+
+        <!-- BUSCADOR -->
+        <form method="get"
+              th:action="@{/ofertas}"
+              class="row mb-4">
+
+            <div class="col-md-6">
+
+                <div class="input-group">
+
+                    <input type="text"
+                           name="buscar"
+                           class="form-control"
+                           placeholder="Buscar oferta por título..."
+                           th:value="${buscar}">
+
+                    <button class="btn btn-dark"
+                            type="submit">
+
+                        <i class="bi bi-search"></i>
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </form>
 
         <!-- Tabla responsive -->
         <div class="table-responsive">
@@ -179,7 +208,7 @@
             th:classappend="${currentPage == 0} ? 'disabled'">
 
             <a class="page-link"
-               th:href="@{/ofertas(page=${currentPage - 1})}">
+               th:href="@{/ofertas(page=${currentPage - 1}, buscar=${buscar})}">
 
                 Anterior
 
@@ -192,7 +221,7 @@
             th:classappend="${i == currentPage} ? 'active'">
 
             <a class="page-link"
-               th:href="@{/ofertas(page=${i})}"
+               th:href="@{/ofertas(page=${i}, buscar=${buscar})}"
                th:text="${i + 1}">
 
             </a>
@@ -203,7 +232,7 @@
             th:classappend="${currentPage + 1 >= totalPages} ? 'disabled'">
 
             <a class="page-link"
-               th:href="@{/ofertas(page=${currentPage + 1})}">
+               th:href="@{/ofertas(page=${currentPage + 1}, buscar=${buscar})}">
 
                 Siguiente
 

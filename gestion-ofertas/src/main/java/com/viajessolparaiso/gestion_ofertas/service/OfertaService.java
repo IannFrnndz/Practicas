@@ -60,6 +60,20 @@ public class OfertaService {
 
         return ofertaRepository.findAll(pageable);
     }
+    //Buscacador de ofertas por el nombre
+    public Page<Oferta> buscarPorTitulo(
+            String titulo,
+            int page,
+            int size
+    ) {
+
+        Pageable pageable = PageRequest.of(page, size);
+
+        return ofertaRepository.findByTituloContainingIgnoreCase(
+                titulo,
+                pageable
+        );
+    }
 
     // Crear o actualizar oferta
     public Oferta save(Oferta oferta) {
