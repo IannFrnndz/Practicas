@@ -9,6 +9,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.scheduling.annotation.Scheduled;
 import java.time.LocalDate;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -49,6 +52,13 @@ public class OfertaService {
             ofertaRepository.save(oferta);
 
         }
+    }
+    // Paginacion para la lista de ofertas
+    public Page<Oferta> findPaginated(int page, int size) {
+
+        Pageable pageable = PageRequest.of(page, size);
+
+        return ofertaRepository.findAll(pageable);
     }
 
     // Crear o actualizar oferta

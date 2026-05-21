@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.data.domain.Page;
 
 @Controller
 @RequestMapping("/ofertas")
@@ -25,11 +26,25 @@ public class OfertaController {
     // LISTAR TODAS LAS OFERTAS
     @GetMapping({"", "/"})
     public String listar(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "5") int size,
             @AuthenticationPrincipal CustomUserDetails userDetails,
             Model model
     ) {
-        model.addAttribute("ofertas", ofertaService.findAll());
-        model.addAttribute("usuario", userDetails.getUsuario());
+
+        Page<Oferta> ofertasPage =
+                ofertaService.findPaginated(page, size);
+
+        model.addAttribute("ofertas", ofertasPage.getContent());
+
+        model.addAttribute("currentPage", page);
+
+        model.addAttribute("totalPages",
+                ofertasPage.getTotalPages());
+
+        model.addAttribute("usuario",
+                userDetails.getUsuario());
+
         return "ofertas/list";
     }
 
