@@ -12,13 +12,20 @@ import java.util.List;
 
 public interface
 OfertaRepository extends JpaRepository<Oferta, Long> {
+
     // por si se encuentra publicado o en borrador y saber cual es su categoria REST
     List<Oferta> findByCategoriaAndEstado(Categoria categoria, EstadoOferta estado);
+
     // para que las ofertas se despubliquen en cuanto llegue el dia (se mantiene el mismo dia y luego se va a borrador)
     List<Oferta> findByEstadoAndFechaValidezLessThan(EstadoOferta estado, LocalDate fecha);
+
     // buscador por el titulo
     Page<Oferta> findByTituloContainingIgnoreCase(String titulo, Pageable pageable);
 
+    //filtrar solo por categoria
+    Page<Oferta> findByCategoria(Categoria categoria, Pageable pageable);
 
+    // filtrar por categoria y titulo
+    Page<Oferta> findByTituloContainingIgnoreCaseAndCategoria(String titulo, Categoria categoria, Pageable pageable);
 }
 

@@ -29,26 +29,54 @@ public class OfertaController {
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "5") int size,
             @RequestParam(required = false) String buscar,
+            @RequestParam(required = false) Categoria categoria,
             @AuthenticationPrincipal CustomUserDetails userDetails,
             Model model
     ) {
 
         Page<Oferta> ofertasPage;
 
-        if (buscar != null && !buscar.isBlank()) {
+        boolean tieneBusqueda =
+                buscar != null && !buscar.isBlank();
 
-            ofertasPage = ofertaService.buscarPorTitulo(
-                    buscar,
-                    page,
-                    size
-            );
+        boolean tieneCategoria =
+                categoria != null;
+
+        if (tieneBusqueda && tieneCategoria) {
+
+            ofertasPage =
+                    ofertaService.buscarPorTituloYCategoria(
+                            buscar,
+                            categoria,
+                            page,
+                            size
+                    );
+
+        } else if (tieneBusqueda) {
+
+            ofertasPage =
+                    ofertaService.buscarPorTitulo(
+                            buscar,
+                            page,
+                            size
+                    );
+
+        } else if (tieneCategoria) {
+
+            ofertasPage =
+                    ofertaService.buscarPorCategoria(
+                            categoria,
+                            page,
+                            size
+                    );
 
         } else {
 
-            ofertasPage = ofertaService.findPaginated(
-                    page,
-                    size
-            );
+            ofertasPage =
+                    ofertaService.findPaginated(
+                            page,
+                            size
+                    );
         }
 
         model.addAttribute("ofertas",
@@ -62,6 +90,12 @@ public class OfertaController {
 
         model.addAttribute("buscar",
                 buscar);
+
+        model.addAttribute("categoriaSeleccionada",
+                categoria);
+
+        model.addAttribute("categorias",
+                Categoria.values());
 
         model.addAttribute("usuario",
                 userDetails.getUsuario());

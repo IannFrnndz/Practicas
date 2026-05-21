@@ -75,6 +75,38 @@ public class OfertaService {
         );
     }
 
+    // filtrar solo por categoria
+    public Page<Oferta> buscarPorCategoria(
+            Categoria categoria,
+            int page,
+            int size
+    ) {
+
+        Pageable pageable = PageRequest.of(page, size);
+
+        return ofertaRepository.findByCategoria(
+                categoria,
+                pageable
+        );
+    }
+    // Filtrar por el nombre y la categoria
+    public Page<Oferta> buscarPorTituloYCategoria(
+            String titulo,
+            Categoria categoria,
+            int page,
+            int size
+    ) {
+
+        Pageable pageable = PageRequest.of(page, size);
+
+        return ofertaRepository
+                .findByTituloContainingIgnoreCaseAndCategoria(
+                        titulo,
+                        categoria,
+                        pageable
+                );
+    }
+
     // Crear o actualizar oferta
     public Oferta save(Oferta oferta) {
         if (oferta.getFechaCreacion() == null) {
