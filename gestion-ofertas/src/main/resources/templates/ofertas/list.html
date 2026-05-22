@@ -3,234 +3,481 @@
 <head>
     <th:block th:replace="~{fragments/header :: header('Listado de Ofertas')}"></th:block>
 
-    <style>
-        /* Ajustes solo para móvil */
-        @media (max-width: 768px) {
+    <!-- Google Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-            /* Header en columna */
-            .header-responsive {
-                display: flex;
-                flex-direction: column;
-                gap: 10px;
+    <style>
+
+        body{
+            font-family: 'Inter', sans-serif;
+            background: #f4f7fb;
+        }
+
+        .main-content{
+            padding-top: 30px;
+            padding-bottom: 40px;
+        }
+
+        /* CARD PRINCIPAL */
+        .offers-card{
+            background: white;
+            border-radius: 24px;
+            padding: 30px;
+            box-shadow:
+                    0 10px 25px rgba(0,0,0,.06),
+                    0 2px 10px rgba(0,0,0,.04);
+        }
+
+        /* TITULO */
+        .page-title{
+            font-weight: 700;
+            color: #111827;
+            margin-bottom: 0;
+        }
+
+        /* BOTÓN NUEVA OFERTA */
+        .btn-create{
+            border: none;
+            border-radius: 14px;
+            padding: 12px 20px;
+            font-weight: 600;
+            background: linear-gradient(135deg, #22c55e, #16a34a);
+            color: white;
+            transition: all .25s ease;
+            box-shadow: 0 8px 20px rgba(34,197,94,.25);
+        }
+
+        .btn-create:hover{
+            transform: translateY(-2px);
+            box-shadow: 0 12px 25px rgba(34,197,94,.35);
+        }
+
+        /* FILTROS */
+        .filters-box{
+            background: #f8fafc;
+            border: 1px solid #e5e7eb;
+            border-radius: 18px;
+            padding: 20px;
+            margin-bottom: 25px;
+        }
+
+        .form-control,
+        .form-select{
+            border-radius: 14px;
+            min-height: 48px;
+            border: 1px solid #dbe3ec;
+            transition: all .2s ease;
+        }
+
+        .form-control:focus,
+        .form-select:focus{
+            border-color: #6366f1;
+            box-shadow: 0 0 0 4px rgba(99,102,241,.15);
+        }
+
+        /* BOTÓN FILTRAR */
+        .btn-filter{
+            border: none;
+            border-radius: 14px;
+            min-height: 48px;
+            font-weight: 600;
+            background: #111827;
+            transition: all .25s ease;
+        }
+
+        .btn-filter:hover{
+            background: #000;
+            transform: translateY(-1px);
+        }
+
+        /* TABLA */
+        .table-wrapper{
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid #eef2f7;
+        }
+
+        .table{
+            margin-bottom: 0;
+            vertical-align: middle;
+        }
+
+        .table thead{
+            background: #111827;
+        }
+
+        .table thead th{
+            color: white;
+            font-weight: 600;
+            border: none;
+            padding: 18px;
+            font-size: 14px;
+            letter-spacing: .3px;
+        }
+
+        .table tbody tr{
+            transition: all .2s ease;
+        }
+
+        .table tbody tr:hover{
+            background: #f8fafc;
+            transform: scale(1.002);
+        }
+
+        .table tbody td{
+            padding: 18px;
+            border-color: #f1f5f9;
+            font-weight: 500;
+            color: #374151;
+        }
+
+        /* BADGES */
+        .badge{
+            padding: 10px 14px;
+            border-radius: 999px;
+            font-weight: 600;
+            font-size: 12px;
+        }
+
+        .bg-success{
+            background: rgba(34,197,94,.15) !important;
+            color: #15803d !important;
+        }
+
+        .bg-warning{
+            background: rgba(251,191,36,.18) !important;
+            color: #b45309 !important;
+        }
+
+        /* BOTONES DE ACCIÓN */
+        .action-btn{
+            border: none;
+            width: 38px;
+            height: 38px;
+            border-radius: 12px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: all .25s ease;
+            margin-left: 4px;
+        }
+
+        .action-btn:hover{
+            transform: translateY(-2px) scale(1.05);
+        }
+
+        .btn-view{
+            background: rgba(59,130,246,.15);
+            color: #2563eb;
+        }
+
+        .btn-edit{
+            background: rgba(245,158,11,.15);
+            color: #d97706;
+        }
+
+        .btn-publish{
+            background: rgba(34,197,94,.15);
+            color: #16a34a;
+        }
+
+        .btn-unpublish{
+            background: rgba(107,114,128,.15);
+            color: #4b5563;
+        }
+
+        .btn-delete{
+            background: rgba(239,68,68,.15);
+            color: #dc2626;
+        }
+
+        /* PAGINACIÓN */
+        .pagination{
+            margin-top: 30px;
+            gap: 8px;
+        }
+
+        .page-link{
+            border: none;
+            border-radius: 12px;
+            color: #111827;
+            padding: 10px 16px;
+            font-weight: 600;
+            transition: all .2s ease;
+            box-shadow: 0 2px 8px rgba(0,0,0,.05);
+        }
+
+        .page-link:hover{
+            background: #111827;
+            color: white;
+        }
+
+        .page-item.active .page-link{
+            background: #111827;
+            color: white;
+        }
+
+        /* MOBILE */
+        @media (max-width: 768px){
+
+            .offers-card{
+                padding: 20px;
             }
 
-            /* Botones de acciones en columna */
-            td.text-end {
+            td.text-end{
                 white-space: nowrap;
             }
 
-            td.text-end .btn {
-                display: block;
-                width: 100%;
-                margin-bottom: 5px;
-            }
-
-            td.text-end form {
+            td.text-end .btn,
+            td.text-end form{
                 display: block !important;
+                width: 100%;
+                margin-bottom: 8px;
             }
+
+            .action-btn{
+                width: 100%;
+                border-radius: 12px;
+            }
+
         }
 
-        /* Separación visual entre botones */
-        .btn-publicar {
-            margin-top: 5px;
-        }
     </style>
 </head>
+
 <body>
 
 <th:block th:replace="~{fragments/navbar :: navbar}"></th:block>
 
 <div class="main-content">
+
     <div class="container">
 
-        <!-- Header responsive -->
-        <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-4 gap-2">
-            <h1 class="display-6">Ofertas</h1>
+        <div class="offers-card">
 
-            <a href="/ofertas/nueva" class="btn btn-success">
-                <i class="bi bi-plus-circle"></i> Nueva oferta
-            </a>
+            <!-- HEADER -->
+            <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-4 gap-3">
 
-        </div>
+                <div>
+                    <h1 class="page-title">
+                        Gestión de Ofertas
+                    </h1>
 
-        <!-- FILTROS -->
-        <form method="get"
-              th:action="@{/ofertas}"
-              class="row mb-4 g-2">
-
-            <!-- Buscar -->
-            <div class="col-md-5">
-
-                <div class="input-group">
-
-                    <input type="text"
-                           name="buscar"
-                           class="form-control"
-                           placeholder="Buscar oferta..."
-                           th:value="${buscar}">
-
+                    <p class="text-muted mb-0">
+                        Administra y controla todas las ofertas disponibles.
+                    </p>
                 </div>
 
-            </div>
+                <a href="/ofertas/nueva"
+                   class="btn btn-create">
 
-            <!-- Categoría -->
-            <div class="col-md-4">
+                    <i class="bi bi-plus-circle"></i>
+                    Nueva oferta
 
-                <select name="categoria"
-                        class="form-select">
-
-                    <option value="">
-                        Todas las categorías
-                    </option>
-
-                    <option th:each="cat : ${categorias}"
-                            th:value="${cat}"
-                            th:text="${cat}"
-                            th:selected="${cat == categoriaSeleccionada}">
-                    </option>
-
-                </select>
+                </a>
 
             </div>
 
-            <!-- Botón -->
-            <div class="col-md-3">
+            <!-- FILTROS -->
+            <div class="filters-box">
 
-                <button class="btn btn-dark w-100"
-                        type="submit">
+                <form method="get"
+                      th:action="@{/ofertas}"
+                      class="row g-3">
 
-                    <i class="bi bi-search"></i>
-                    Filtrar
+                    <!-- BUSCAR -->
+                    <div class="col-md-5">
 
-                </button>
+                        <div class="input-group">
 
-            </div>
+                            <span class="input-group-text bg-white border-end-0 rounded-start-4">
+                                <i class="bi bi-search"></i>
+                            </span>
 
-        </form>
+                            <input type="text"
+                                   name="buscar"
+                                   class="form-control border-start-0"
+                                   placeholder="Buscar oferta..."
+                                   th:value="${buscar}">
 
-        <!-- Tabla responsive -->
-        <div class="table-responsive">
-            <table class="table table-hover">
+                        </div>
 
-                <thead class="table-dark">
-                <tr>
-                    <th>ID</th>
-                    <th>Título</th>
-                    <th>Precio</th>
-                    <th>Fecha Validez</th>
-                    <th>Estado</th>
-                    <th>Categoria</th>
-                    <th class="text-end">Acciones</th>
-                </tr>
-                </thead>
-
-                <tbody>
-
-                <tr th:each="oferta : ${ofertas}">
-
-                    <td th:text="${oferta.id}">1</td>
-
-                    <td th:text="${oferta.titulo}">Oferta</td>
-
-                    <td th:text="${oferta.precio}">0.00€</td>
-
-                    <td th:text="${#temporals.format(oferta.fechaValidez, 'dd/MM/yyyy')}"></td>
-
-                    <!-- ESTADO -->
-                    <td>
-
-                        <span th:if="${oferta.estado != null and oferta.estado.name() == 'PUBLICADA'}"
-                              class="badge bg-success">
-
-                            <i class="bi bi-check-circle"></i> Publicada
-
-                        </span>
-
-                        <span th:if="${oferta.estado == null or oferta.estado.name() == 'BORRADOR'}"
-                              class="badge bg-warning">
-
-                            <i class="bi bi-clock"></i> Borrador
-
-                        </span>
-
-                    </td>
+                    </div>
 
                     <!-- CATEGORIA -->
-                    <td th:text="${oferta.categoria}"></td>
+                    <div class="col-md-4">
 
-                    <!-- ACCIONES -->
-                    <td class="text-end">
+                        <select name="categoria"
+                                class="form-select">
 
-                        <!-- VER -->
-                        <a th:href="@{/ofertas/{id}(id=${oferta.id})}"
-                           class="btn btn-primary btn-sm"
-                           title="Ver oferta">
+                            <option value="">
+                                Todas las categorías
+                            </option>
 
-                            <i class="bi bi-eye"></i>
+                            <option th:each="cat : ${categorias}"
+                                    th:value="${cat}"
+                                    th:text="${cat}"
+                                    th:selected="${cat == categoriaSeleccionada}">
+                            </option>
 
-                        </a>
+                        </select>
 
-                        <!-- EDITAR -->
-                        <a th:href="@{/ofertas/editar/{id}(id=${oferta.id})}"
-                           class="btn btn-warning btn-sm"
-                           title="Editar oferta">
+                    </div>
 
-                            <i class="bi bi-pencil-square"></i>
+                    <!-- BOTÓN -->
+                    <div class="col-md-3">
 
-                        </a>
+                        <button class="btn btn-dark btn-filter w-100"
+                                type="submit">
 
-                        <!-- PUBLICAR -->
-                        <a th:if="${oferta.estado.name() == 'BORRADOR'}"
-                           th:href="@{/ofertas/publicar/{id}(id=${oferta.id})}"
-                           class="btn btn-success btn-sm "
-                           title="Publicar oferta">
+                            <i class="bi bi-funnel"></i>
+                            Filtrar
 
-                            <i class="bi bi-upload"></i>
+                        </button>
 
-                        </a>
+                    </div>
 
-                        <!-- DESPUBLICAR -->
-                        <a th:if="${oferta.estado.name() == 'PUBLICADA'}"
-                           th:href="@{/ofertas/despublicar/{id}(id=${oferta.id})}"
-                           class="btn btn-secondary btn-sm"
-                           title="Despublicar oferta">
+                </form>
 
-                            <i class="bi bi-pause"></i>
+            </div>
 
-                        </a>
+            <!-- TABLA -->
+            <div class="table-responsive table-wrapper">
 
-                        <!-- ELIMINAR -->
-                        <form th:action="@{/ofertas/eliminar/{id}(id=${oferta.id})}"
-                              method="post"
-                              style="display:inline;"
-                              onsubmit="return confirm('¿Eliminar esta oferta?');">
+                <table class="table table-hover">
 
-                            <button class="btn btn-danger btn-sm"
-                                    title="Eliminar oferta">
+                    <thead>
+                    <tr>
 
-                                <i class="bi bi-trash"></i>
+                        <th>ID</th>
+                        <th>Título</th>
+                        <th>Precio</th>
+                        <th>Fecha Validez</th>
+                        <th>Estado</th>
+                        <th>Categoría</th>
+                        <th class="text-end">Acciones</th>
 
-                            </button>
+                    </tr>
+                    </thead>
 
-                        </form>
+                    <tbody>
 
-                    </td>
+                    <tr th:each="oferta : ${ofertas}">
 
-                </tr>
+                        <td th:text="${oferta.id}">1</td>
 
-                </tbody>
+                        <td class="fw-semibold"
+                            th:text="${oferta.titulo}">
+                            Oferta
+                        </td>
 
-            </table>
+                        <td th:text="${oferta.precio}">0.00€</td>
+
+                        <td th:text="${#temporals.format(oferta.fechaValidez, 'dd/MM/yyyy')}"></td>
+
+                        <!-- ESTADO -->
+                        <td>
+
+                            <span th:if="${oferta.estado != null and oferta.estado.name() == 'PUBLICADA'}"
+                                  class="badge bg-success">
+
+                                <i class="bi bi-check-circle"></i>
+                                Publicada
+
+                            </span>
+
+                            <span th:if="${oferta.estado == null or oferta.estado.name() == 'BORRADOR'}"
+                                  class="badge bg-warning">
+
+                                <i class="bi bi-clock"></i>
+                                Borrador
+
+                            </span>
+
+                        </td>
+
+                        <!-- CATEGORIA -->
+                        <td th:text="${oferta.categoria}"></td>
+
+                        <!-- ACCIONES -->
+                        <td class="text-end">
+
+                            <!-- VER -->
+                            <a th:href="@{/ofertas/{id}(id=${oferta.id})}"
+                               class="btn action-btn btn-view"
+                               title="Ver oferta">
+
+                                <i class="bi bi-eye"></i>
+
+                            </a>
+
+                            <!-- EDITAR -->
+                            <a th:href="@{/ofertas/editar/{id}(id=${oferta.id})}"
+                               class="btn action-btn btn-edit"
+                               title="Editar oferta">
+
+                                <i class="bi bi-pencil-square"></i>
+
+                            </a>
+
+                            <!-- PUBLICAR -->
+                            <a th:if="${oferta.estado.name() == 'BORRADOR'}"
+                               th:href="@{/ofertas/publicar/{id}(id=${oferta.id})}"
+                               class="btn action-btn btn-publish"
+                               title="Publicar oferta">
+
+                                <i class="bi bi-upload"></i>
+
+                            </a>
+
+                            <!-- DESPUBLICAR -->
+                            <a th:if="${oferta.estado.name() == 'PUBLICADA'}"
+                               th:href="@{/ofertas/despublicar/{id}(id=${oferta.id})}"
+                               class="btn action-btn btn-unpublish"
+                               title="Despublicar oferta">
+
+                                <i class="bi bi-pause"></i>
+
+                            </a>
+
+                            <!-- ELIMINAR -->
+                            <form th:action="@{/ofertas/eliminar/{id}(id=${oferta.id})}"
+                                  method="post"
+                                  style="display:inline;"
+                                  onsubmit="return confirm('¿Eliminar esta oferta?');">
+
+                                <button class="btn action-btn btn-delete"
+                                        title="Eliminar oferta">
+
+                                    <i class="bi bi-trash"></i>
+
+                                </button>
+
+                            </form>
+
+                        </td>
+
+                    </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
         </div>
 
     </div>
 
 </div>
+
 <!-- PAGINACIÓN -->
 <nav th:if="${totalPages > 1}">
+
     <ul class="pagination justify-content-center">
 
-        <!-- Anterior -->
+        <!-- ANTERIOR -->
         <li class="page-item"
             th:classappend="${currentPage == 0} ? 'disabled'">
 
@@ -240,9 +487,10 @@
                 Anterior
 
             </a>
+
         </li>
 
-        <!-- Números -->
+        <!-- NÚMEROS -->
         <li class="page-item"
             th:each="i : ${#numbers.sequence(0, totalPages - 1)}"
             th:classappend="${i == currentPage} ? 'active'">
@@ -252,9 +500,10 @@
                th:text="${i + 1}">
 
             </a>
+
         </li>
 
-        <!-- Siguiente -->
+        <!-- SIGUIENTE -->
         <li class="page-item"
             th:classappend="${currentPage + 1 >= totalPages} ? 'disabled'">
 
@@ -264,9 +513,11 @@
                 Siguiente
 
             </a>
+
         </li>
 
     </ul>
+
 </nav>
 
 <th:block th:replace="~{fragments/footer :: footer}"></th:block>
