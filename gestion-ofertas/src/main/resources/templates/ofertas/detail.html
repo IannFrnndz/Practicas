@@ -1,117 +1,431 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
+
     <th:block th:replace="~{fragments/header :: header('Detalle de Oferta')}"></th:block>
+
+    <!-- GOOGLE FONT -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+          rel="stylesheet">
+
+    <style>
+
+        body{
+            font-family: 'Inter', sans-serif;
+            background: #f4f7fb;
+        }
+
+        .main-content{
+            padding-top: 30px;
+            padding-bottom: 40px;
+        }
+
+        /* CARD PRINCIPAL */
+        .offer-card{
+            background: white;
+            border-radius: 24px;
+            padding: 30px;
+            box-shadow:
+                    0 10px 25px rgba(0,0,0,.06),
+                    0 2px 10px rgba(0,0,0,.04);
+        }
+
+        /* TITULO */
+        .page-title{
+            font-weight: 700;
+            color: #111827;
+            margin-bottom: 10px;
+        }
+
+        /* CARDS */
+        .custom-card{
+            background: white;
+            border-radius: 22px;
+            border: 1px solid #eef2f7;
+            overflow: hidden;
+            box-shadow: 0 6px 18px rgba(0,0,0,.04);
+            height: 100%;
+        }
+
+        .custom-card-header{
+            padding: 18px 22px;
+            background: #111827;
+            color: white;
+            font-weight: 600;
+            border: none;
+        }
+
+        .custom-card-body{
+            padding: 24px;
+        }
+
+        /* IMAGEN */
+        .offer-image{
+            width: 100%;
+            max-height: 320px;
+            object-fit: cover;
+            border-radius: 22px;
+        }
+
+        /* TABLA */
+        .table{
+            margin-bottom: 0;
+        }
+
+        .table th{
+            color: #111827;
+            font-weight: 700;
+            width: 160px;
+            padding: 14px 0;
+        }
+
+        .table td{
+            color: #4b5563;
+            font-weight: 500;
+            padding: 14px 0;
+        }
+
+        /* BADGES */
+        .badge{
+            padding: 10px 14px;
+            border-radius: 999px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .bg-success{
+            background: rgba(34,197,94,.15) !important;
+            color: #15803d !important;
+        }
+
+        .bg-warning{
+            background: rgba(251,191,36,.18) !important;
+            color: #b45309 !important;
+        }
+
+        .bg-info{
+            background: rgba(59,130,246,.15) !important;
+            color: #2563eb !important;
+        }
+
+        /* BOTONES */
+        .btn{
+            border: none;
+            border-radius: 14px;
+            padding: 12px 20px;
+            font-weight: 600;
+            transition: all .25s ease;
+        }
+
+        .btn:hover{
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary{
+            background: #e5e7eb;
+            color: #374151;
+        }
+
+        .btn-secondary:hover{
+            background: #d1d5db;
+            color: #111827;
+        }
+
+        .btn-warning{
+            background: rgba(245,158,11,.15);
+            color: #d97706;
+        }
+
+        .btn-warning:hover{
+            background: rgba(245,158,11,.25);
+            color: #b45309;
+        }
+
+        .btn-success{
+            background: rgba(34,197,94,.15);
+            color: #16a34a;
+        }
+
+        .btn-success:hover{
+            background: rgba(34,197,94,.25);
+            color: #15803d;
+        }
+
+        .btn-danger{
+            background: rgba(239,68,68,.15);
+            color: #dc2626;
+        }
+
+        .btn-danger:hover{
+            background: rgba(239,68,68,.25);
+            color: #b91c1c;
+        }
+
+        /* DESCRIPCIÓN */
+        .description-text{
+            color: #4b5563;
+            line-height: 1.8;
+            margin-bottom: 0;
+        }
+
+        /* MOVIL */
+        @media (max-width: 768px){
+
+            .offer-card{
+                padding: 20px;
+            }
+
+            .header-mobile{
+                flex-direction: column;
+                align-items: flex-start !important;
+                gap: 16px;
+            }
+
+            .actions-mobile{
+                flex-direction: column;
+            }
+
+            .actions-mobile .btn,
+            .actions-mobile form{
+                width: 100%;
+            }
+
+            .actions-mobile form button{
+                width: 100%;
+            }
+
+        }
+
+    </style>
+
 </head>
+
 <body>
 
 <th:block th:replace="~{fragments/navbar :: navbar}"></th:block>
 
 <div class="main-content">
+
     <div class="container">
 
-        <div class="d-flex justify-content-between mb-4">
-            <div>
-                <h1 class="display-6" th:text="${oferta.titulo}">Oferta</h1>
-                <p class="text-muted">
-                    <span th:if="${oferta.estado.name() == 'PUBLICADA'}" class="badge bg-success">
-                        <i class="bi bi-check-circle"></i> Publicada
-                    </span>
-                    <span th:unless="${oferta.estado.name() == 'PUBLICADA'}" class="badge bg-warning">
-                        <i class="bi bi-clock"></i> Borrador
-                    </span>
-                </p>
-            </div>
+        <div class="offer-card">
 
-            <a href="/ofertas" class="btn btn-secondary h-50">
-                <i class="bi bi-arrow-left"></i> Volver
-            </a>
-        </div>
+            <!-- HEADER -->
+            <div class="d-flex justify-content-between align-items-start mb-4 header-mobile">
 
-        <div class="row">
-            <!-- Imagen -->
-            <div class="col-md-6 mb-3" th:if="${oferta.imagenUrl}">
-                <div class="card">
-                    <img th:src="${oferta.imagenUrl}" class="card-img-top" alt="Imagen oferta" style="max-height: 300px; object-fit: cover;">
+                <div>
+
+                    <h1 class="page-title"
+                        th:text="${oferta.titulo}">
+
+                        Oferta
+
+                    </h1>
+
+                    <p class="text-muted">
+
+                        <span th:if="${oferta.estado.name() == 'PUBLICADA'}"
+                              class="badge bg-success">
+
+                            <i class="bi bi-check-circle"></i>
+                            Publicada
+
+                        </span>
+
+                        <span th:unless="${oferta.estado.name() == 'PUBLICADA'}"
+                              class="badge bg-warning">
+
+                            <i class="bi bi-clock"></i>
+                            Borrador
+
+                        </span>
+
+                    </p>
+
                 </div>
+
+                <a href="/ofertas"
+                   class="btn btn-secondary">
+
+                    <i class="bi bi-arrow-left"></i>
+                    Volver
+
+                </a>
+
             </div>
 
-            <!-- Detalles -->
-            <div class="col-md-6 mb-3">
-                <div class="card">
-                    <div class="card-header">
-                        <i class="bi bi-info-circle"></i> Detalles
-                    </div>
-                    <div class="card-body">
-                        <table class="table table-borderless">
-                            <tr>
-                                <th>ID:</th>
-                                <td th:text="${oferta.id}"></td>
-                            </tr>
-                            <tr>
-                                <th>Precio:</th>
-                                <td><strong th:text="${#numbers.formatDecimal(oferta.precio, 1, 2) + '€'}">0.00€</strong></td>
-                            </tr>
-                            <tr>
-                                <th>Fecha Validez:</th>
-                                <td th:text="${#temporals.format(oferta.fechaValidez, 'dd/MM/yyyy')}">-</td>
-                            </tr>
-                            <tr>
-                                <th>Categoría:</th>
+            <!-- CONTENIDO -->
+            <div class="row">
+
+                <!-- IMAGEN -->
+                <div class="col-md-6 mb-4"
+                     th:if="${oferta.imagenUrl}">
+
+                    <img th:src="${oferta.imagenUrl}"
+                         class="offer-image"
+                         alt="Imagen oferta">
+
+                </div>
+
+                <!-- DETALLES -->
+                <div class="col-md-6 mb-4">
+
+                    <div class="custom-card">
+
+                        <div class="custom-card-header">
+
+                            <i class="bi bi-info-circle"></i>
+                            Detalles
+
+                        </div>
+
+                        <div class="custom-card-body">
+
+                            <table class="table table-borderless">
+
+                                <tr>
+
+                                    <th>ID:</th>
+
+                                    <td th:text="${oferta.id}"></td>
+
+                                </tr>
+
+                                <tr>
+
+                                    <th>Precio:</th>
+
                                     <td>
-                                        <span class="badge bg-info text-dark"th:text="${#strings.capitalize(oferta.categoria.name().toLowerCase())}"></span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>Creada:</th>
-                                <td th:text="${#temporals.format(oferta.fechaCreacion, 'dd/MM/yyyy HH:mm')}">-</td>
-                            </tr>
-                        </table>
+
+                                        <strong th:text="${#numbers.formatDecimal(oferta.precio, 1, 2) + '€'}">
+                                            0.00€
+                                        </strong>
+
+                                    </td>
+
+                                </tr>
+
+                                <tr>
+
+                                    <th>Fecha Validez:</th>
+
+                                    <td th:text="${#temporals.format(oferta.fechaValidez, 'dd/MM/yyyy')}">
+                                        -
+                                    </td>
+
+                                </tr>
+
+                                <tr>
+
+                                    <th>Categoría:</th>
+
+                                    <td>
+
+                                        <span class="badge bg-info text-dark"
+                                              th:text="${#strings.capitalize(oferta.categoria.name().toLowerCase())}">
+                                        </span>
+
+                                    </td>
+
+                                </tr>
+
+                                <tr>
+
+                                    <th>Creada:</th>
+
+                                    <td th:text="${#temporals.format(oferta.fechaCreacion, 'dd/MM/yyyy HH:mm')}">
+                                        -
+                                    </td>
+
+                                </tr>
+
+                            </table>
+
+                        </div>
+
                     </div>
+
                 </div>
+
             </div>
-        </div>
 
-        <!-- Descripción -->
-        <div class="card mb-3">
-            <div class="card-header">
-                <i class="bi bi-file-text"></i> Descripción
+            <!-- DESCRIPCIÓN -->
+            <div class="custom-card mb-4">
+
+                <div class="custom-card-header">
+
+                    <i class="bi bi-file-text"></i>
+                    Descripción
+
+                </div>
+
+                <div class="custom-card-body">
+
+                    <p class="description-text"
+                       th:text="${oferta.descripcion}">
+
+                        Sin descripción
+
+                    </p>
+
+                </div>
+
             </div>
-            <div class="card-body">
-                <p th:text="${oferta.descripcion}">Sin descripción</p>
+
+            <!-- ACCIONES -->
+            <div class="d-flex justify-content-end gap-2 actions-mobile">
+
+                <a th:href="@{/ofertas/editar/{id}(id=${oferta.id})}"
+                   class="btn btn-warning">
+
+                    <i class="bi bi-pencil"></i>
+                    Editar
+
+                </a>
+
+                <!-- PUBLICAR -->
+                <a th:if="${oferta.estado.name() == 'BORRADOR'}"
+                   th:href="@{/ofertas/publicar/{id}(id=${oferta.id})}"
+                   class="btn btn-success">
+
+                    <i class="bi bi-upload"></i>
+                    Publicar
+
+                </a>
+
+                <!-- DESPUBLICAR -->
+                <a th:if="${oferta.estado.name() == 'PUBLICADA'}"
+                   th:href="@{/ofertas/despublicar/{id}(id=${oferta.id})}"
+                   class="btn btn-secondary">
+
+                    <i class="bi bi-pause"></i>
+                    Despublicar
+
+                </a>
+
+                <!-- ELIMINAR -->
+                <form th:action="@{/ofertas/eliminar/{id}(id=${oferta.id})}"
+                      method="post"
+                      style="display:inline;"
+                      onsubmit="return confirm('¿Eliminar esta oferta?');">
+
+                    <button class="btn btn-danger">
+
+                        <i class="bi bi-trash"></i>
+                        Eliminar
+
+                    </button>
+
+                </form>
+
             </div>
-        </div>
 
-        <!-- Acciones -->
-        <div class="d-flex justify-content-end gap-2">
-            <a th:href="@{/ofertas/editar/{id}(id=${oferta.id})}" class="btn btn-warning">
-                <i class="bi bi-pencil"></i> Editar
-            </a>
-
-            <!-- Publicar/Despublicar -->
-            <a th:if="${oferta.estado.name() == 'BORRADOR'}"
-               th:href="@{/ofertas/publicar/{id}(id=${oferta.id})}"
-               class="btn btn-success">
-                <i class="bi bi-upload"></i> Publicar
-            </a>
-            <a th:if="${oferta.estado.name() == 'PUBLICADA'}"
-               th:href="@{/ofertas/despublicar/{id}(id=${oferta.id})}"
-               class="btn btn-secondary">
-                <i class="bi bi-pause"></i> Despublicar
-            </a>
-
-            <!-- Eliminar -->
-            <form th:action="@{/ofertas/eliminar/{id}(id=${oferta.id})}"
-                  method="post"
-                  style="display:inline;"
-                  onsubmit="return confirm('¿Eliminar esta oferta?');">
-                <button class="btn btn-danger">
-                    <i class="bi bi-trash"></i> Eliminar
-                </button>
-            </form>
         </div>
 
     </div>
+
 </div>
 
 <th:block th:replace="~{fragments/footer :: footer}"></th:block>
