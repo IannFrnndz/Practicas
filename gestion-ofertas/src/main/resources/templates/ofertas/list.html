@@ -6,6 +6,7 @@
     <!-- Google Font -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <style>
 
@@ -218,7 +219,7 @@
             color: white;
         }
 
-        /* MOBILE */
+        /* MOVIL */
         @media (max-width: 768px){
 
             .offers-card{
@@ -239,6 +240,152 @@
             .action-btn{
                 width: 100%;
                 border-radius: 12px;
+            }
+
+        }
+
+        /*RESPONSIVE PARA MOVIL*/
+
+        @media (max-width: 768px) {
+
+            body{
+                overflow-x: hidden;
+            }
+
+            .main-content{
+                padding: 15px 10px;
+            }
+
+            .container{
+                max-width: 100%;
+                padding: 0;
+            }
+
+            .offers-card{
+                padding: 16px;
+                border-radius: 18px;
+            }
+
+            /* HEADER */
+            .page-title{
+                font-size: 24px;
+            }
+
+            .btn-create{
+                width: 100%;
+                text-align: center;
+            }
+
+            /* FILTROS */
+            .filters-box{
+                padding: 15px;
+            }
+
+            .filters-box .row > div{
+                width: 100%;
+            }
+
+            /* TABLA TRANSOFRMADA A CARD MOBILE */
+            .table-responsive{
+                overflow: visible !important;
+            }
+
+            .table{
+                border: 0;
+                min-width: 100%;
+            }
+
+            .table thead{
+                display: none;
+            }
+
+            .table tbody{
+                display: flex;
+                flex-direction: column;
+                gap: 16px;
+            }
+
+            .table tbody tr{
+                display: block;
+                background: white;
+                border: 1px solid #e5e7eb;
+                border-radius: 18px;
+                padding: 14px;
+                box-shadow: 0 4px 12px rgba(0,0,0,.05);
+            }
+
+            .table tbody td{
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                text-align: right;
+                padding: 10px 0;
+                border: none;
+                white-space: normal;
+                gap: 10px;
+            }
+
+            .table tbody td::before{
+                font-weight: 700;
+                color: #111827;
+                text-align: left;
+            }
+
+            /* LABELS */
+            .table tbody td:nth-child(1)::before{
+                content: "ID";
+            }
+
+            .table tbody td:nth-child(2)::before{
+                content: "Título";
+            }
+
+            .table tbody td:nth-child(3)::before{
+                content: "Precio";
+            }
+
+            .table tbody td:nth-child(4)::before{
+                content: "Validez";
+            }
+
+            .table tbody td:nth-child(5)::before{
+                content: "Estado";
+            }
+
+            .table tbody td:nth-child(6)::before{
+                content: "Categoría";
+            }
+
+            .table tbody td:nth-child(7)::before{
+                content: "Acciones";
+            }
+
+            /* ACCIONES */
+            td.text-end{
+                justify-content: flex-end !important;
+                flex-wrap: wrap;
+                gap: 8px;
+            }
+
+            td.text-end form{
+                display: inline;
+            }
+
+            .action-btn{
+                width: 42px;
+                height: 42px;
+            }
+
+            /* PAGINACION */
+            .pagination{
+                flex-wrap: wrap;
+                padding: 0 10px;
+                gap: 8px;
+            }
+
+            .page-link{
+                padding: 8px 12px;
+                font-size: 13px;
             }
 
         }
