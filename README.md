@@ -99,13 +99,10 @@ Aplicación móvil desarrollada en **Flutter (Dart)**. Su función es consumir e
 
 ## Autor
 
-Ian Fernández  
+Ian Fernández Gamo 
 Alumno de 2º DAM  
-IES [nombre de tu instituto]  
+Campus FP Emprende 
 Proyecto TFG - Curso 2025/26
 
 ---
 
-> **Nota final:**  
-> Este repositorio y sus contenidos son demostrativos y realizados en el marco de formación académica.
-> Para dudas, propuestas de mejora o dificultades con el despliegue, puedes contactarme desde GitHub.
